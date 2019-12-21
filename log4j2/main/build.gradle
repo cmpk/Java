@@ -1,0 +1,37 @@
+/*
+ * This generated file contains a sample Java Library project to get you started.
+ * For more details take a look at the Java Libraries chapter in the Gradle
+ * User Manual available at https://docs.gradle.org/5.6.1/userguide/java_library_plugin.html
+ */
+
+apply plugin: 'java'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    // Use jcenter for resolving dependencies.
+    // You can declare any Maven/Ivy/file repository here.
+    jcenter()
+}
+
+dependencies {
+    // 依存プロジェクトを指定する
+    compile project(':common')
+}
+
+jar {
+    // 設定ファイルは jar に含めない
+    exclude('*.xml')
+
+    // 外部jarを1個のjarに突っ込む
+    // ・参考 : Gradleでマルチプロジェクトを実行可能JARにする (https://qiita.com/kazuma1989/items/83dc10c8ee1313592e4a)
+    // ・参考 : https://tech-lab.sios.jp/archives/9500 (https://tech-lab.sios.jp/archives/9500)
+    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+
+    manifest {
+        attributes 'Main-Class': 'main.Main'
+
+        // 設定ファイルを作成された jar ファイルと同じディレクトリの conf ディレクトリに配置するものとする
+        attributes 'Class-Path': './conf/'
+    }
+}

@@ -1,0 +1,12 @@
+# Ignore Gradle files
+.gradle
+build
+gradle
+fradlew.bat
+dradlew
+
+# Ignore Eclipse files
+.classpath
+.project
+.settings
+bin
