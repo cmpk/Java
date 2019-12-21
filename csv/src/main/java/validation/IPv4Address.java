@@ -8,12 +8,12 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
+/**
+ * IPv4アドレスバリデートアノテーション用クラス
+ */
 @Target({ ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = IPv4AddressValidator.class)
-/**
- * Validate that the annotated string is in IPv4 address
- */
 public @interface IPv4Address {
 
     String message() default "{validation.IPv4Address.message}";

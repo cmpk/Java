@@ -25,7 +25,7 @@ public class CSVReader {
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    public List<CSVEntity> read(final Class<CSVEntity> clazz, final String filepath, final String separator) throws FileNotFoundException, InstantiationException, IllegalAccessException, IOException, ClassNotFoundException {
+    public List<ICSVEntity> read(final Class<ICSVEntity> clazz, final String filepath, final String separator) throws FileNotFoundException, InstantiationException, IllegalAccessException, IOException, ClassNotFoundException {
         return read(clazz, filepath, separator, DEFAULT_INCLUDE_HEADER);
     }
 
@@ -42,7 +42,7 @@ public class CSVReader {
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    public List<CSVEntity> read(final Class<CSVEntity> clazz, final String filepath, final boolean includeHeader) throws FileNotFoundException, InstantiationException, IllegalAccessException, IOException, ClassNotFoundException {
+    public List<ICSVEntity> read(final Class<ICSVEntity> clazz, final String filepath, final boolean includeHeader) throws FileNotFoundException, InstantiationException, IllegalAccessException, IOException, ClassNotFoundException {
         return read(clazz, filepath, DEFAULT_SEPARATOR, includeHeader);
     }
 
@@ -58,7 +58,7 @@ public class CSVReader {
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    public List<CSVEntity> read(final Class<CSVEntity> clazz, final String filepath) throws FileNotFoundException, InstantiationException, IllegalAccessException, IOException, ClassNotFoundException {
+    public List<ICSVEntity> read(final Class<ICSVEntity> clazz, final String filepath) throws FileNotFoundException, InstantiationException, IllegalAccessException, IOException, ClassNotFoundException {
         return read(clazz, filepath, DEFAULT_SEPARATOR, DEFAULT_INCLUDE_HEADER);
     }
 
@@ -81,8 +81,8 @@ public class CSVReader {
      * @throws ClassNotFoundException classpath が見つからない場合に発生.
      *                                詳細は{@see ClassNotFoundException}を参照のこと.
      */
-    public List<CSVEntity> read(final Class<CSVEntity> clazz, final String filepath, final String separator, final boolean includeHeader) throws FileNotFoundException, IOException, InstantiationException, IllegalAccessException, ClassNotFoundException {
-        List<CSVEntity> list = new ArrayList<CSVEntity>();
+    public List<ICSVEntity> read(final Class<ICSVEntity> clazz, final String filepath, final String separator, final boolean includeHeader) throws FileNotFoundException, IOException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+        List<ICSVEntity> list = new ArrayList<ICSVEntity>();
 
         File file = new File(filepath);
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -94,7 +94,7 @@ public class CSVReader {
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(separator, 0);
 
-                CSVEntity entity = getCSVEntity(clazz, data);
+                ICSVEntity entity = getCSVEntity(clazz, data);
                 list.add(entity);
             }
         }
@@ -103,8 +103,8 @@ public class CSVReader {
         return list;
     }
 
-    private CSVEntity getCSVEntity(final Class<CSVEntity> clazz, final String[] data) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-        CSVEntity entity = (CSVEntity) clazz.newInstance();
+    private ICSVEntity getCSVEntity(final Class<ICSVEntity> clazz, final String[] data) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+        ICSVEntity entity = (ICSVEntity) clazz.newInstance();
         entity.setData(data);
         return entity;
     }

@@ -9,24 +9,24 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * YYYY/MM/DD 形式の日付バリデートアノテーション用クラス
+ * CSVカラム数バリデートアノテーション用クラス
  */
 @Target({ ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = DateWithYearMonthDateValidator.class)
-public @interface DateWithYearMonthDate {
+@Constraint(validatedBy = ColumnSizeValidator.class)
+public @interface ColumnSize {
 
-    String message() default "{validation.DateWithYearMonthDate.message}";
+    String message() default "{validation.ColumnSize.message}";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
 
-    boolean nullable() default false;
+    int size();
 
     @Target({ ElementType.FIELD, ElementType.PARAMETER })
     @Retention(RetentionPolicy.RUNTIME)
     public @interface List {
-        DateWithYearMonthDate[] value();
+        ColumnSize[] value();
     }
 }

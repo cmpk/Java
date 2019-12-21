@@ -1,21 +1,21 @@
 package main;
 
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-import csv.CSVEntity;
+import csv.ICSVEntity;
 import lombok.Getter;
+import validation.ColumnSize;
 import validation.DateWithYearMonthDate;
 import validation.IPv4Address;
 
-public class Data implements CSVEntity {
+public class Data implements ICSVEntity {
     public static final int COLUMN_LENGTH = 5;
     private static final long serialVersionUID = 1L;
 
-    @Min(COLUMN_LENGTH) @Max(COLUMN_LENGTH)
+    @ColumnSize(size = COLUMN_LENGTH)
     private int lineLength = 0;
 
     @Getter @DateWithYearMonthDate(nullable = true)

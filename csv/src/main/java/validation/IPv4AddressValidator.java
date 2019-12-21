@@ -11,12 +11,12 @@ public class IPv4AddressValidator implements ConstraintValidator<IPv4Address, St
     private Boolean isNullable;
 
     @Override
-    public void initialize(final IPv4Address validDate) {
-        this.isNullable = validDate.nullable();
+    public final void initialize(final IPv4Address constraintAnnotation) {
+        this.isNullable = constraintAnnotation.nullable();
     }
 
     @Override
-    public boolean isValid(final String value, final ConstraintValidatorContext context) {
+    public final boolean isValid(final String value, final ConstraintValidatorContext context) {
         boolean ret = (isNullable && StringUtils.isEmpty(value)) ? true : isValidFormat(value);
         if (!ret) {
             HibernateConstraintValidatorContext hContext = context.unwrap(HibernateConstraintValidatorContext.class);

@@ -16,12 +16,12 @@ public class DateWithYearMonthDateValidator implements ConstraintValidator<DateW
     private Boolean isNullable;
 
     @Override
-    public void initialize(final DateWithYearMonthDate validDate) {
-        this.isNullable = validDate.nullable();
+    public final void initialize(final DateWithYearMonthDate constraintAnnotation) {
+        this.isNullable = constraintAnnotation.nullable();
     }
 
     @Override
-    public boolean isValid(final String value, final ConstraintValidatorContext context) {
+    public final boolean isValid(final String value, final ConstraintValidatorContext context) {
         boolean ret = (isNullable && StringUtils.isEmpty(value)) ? true : isValidFormat(DEFAULT_FORMAT, value);
         if (!ret) {
             HibernateConstraintValidatorContext hContext = context.unwrap(HibernateConstraintValidatorContext.class);

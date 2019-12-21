@@ -2,7 +2,7 @@ package csv;
 
 import java.io.Serializable;
 
-public interface CSVEntity extends Serializable {
+public interface ICSVEntity extends Serializable {
 
     /**
      * データ1行分を本インスタンスに設定する.

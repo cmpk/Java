@@ -1,5 +1,6 @@
 package main;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
@@ -7,26 +8,24 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
-import csv.CSVEntity;
+import csv.ICSVEntity;
 import csv.CSVReader;
-import csv.CSVValidator;
+import validation.ValidationUtility;
 
 /**
  * お世話になったサイト.
  *
- * Ref:
- * https://qiita.com/5zm/items/89b7198cab74f2d0f4a1
+ * Ref: https://qiita.com/5zm/items/89b7198cab74f2d0f4a1
  *
  */
 public final class Main {
     public static void main(final String[] args) {
-        Validator validator = CSVValidator.getValidator();
-        CSVReader reader = new CSVReader();
-        List<CSVEntity> list = null;
+        Validator validator = ValidationUtility.getValidator();
+        List<ICSVEntity> list = null;
         try {
-            list = reader.read((Class)Data.class, "files/data.csv");
+            list = read();
             list.forEach(entity -> {
-                Set<ConstraintViolation<CSVEntity>> constraintViolations = validator.validate(entity);
+                Set<ConstraintViolation<ICSVEntity>> constraintViolations = validator.validate(entity);
                 int errorCount = constraintViolations.size();
                 System.out.println("----------");
                 System.out.println("validate error count : " + errorCount);
@@ -60,5 +59,20 @@ public final class Main {
     }
 
     private Main() {
+    }
+
+    /**
+     * CheckStyle warning 対策用メソッド.
+     *
+     * @return
+     * @throws FileNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws ClassNotFoundException
+     * @throws IOException
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private static List<ICSVEntity> read() throws FileNotFoundException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException {
+        return new CSVReader().read((Class) Data.class, "files/data.csv");
     }
 }
