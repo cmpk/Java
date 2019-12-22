@@ -9,4 +9,5 @@ dradlew
 .classpath
 .project
 .settings
+app.properties
 bin
