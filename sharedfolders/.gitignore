@@ -9,5 +9,9 @@ dradlew
 .classpath
 .project
 .settings
-app.properties
 bin
+
+# Ignore local settings
+app.properties
+shared_dir
+
