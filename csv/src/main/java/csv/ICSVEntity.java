@@ -12,9 +12,10 @@ public interface ICSVEntity extends Serializable {
     void setData(String[] data);
 
     /**
-     * カラム数.
-     *
-     * @return
+     * データ1行分のカラム数.
+     * データ1行分についてCSVから読み込んだ対象データのカラム数を取得する.
+     * カラム数に対するバリデーションは{@see ColumnSize}にて実現される.
+     * @return カラム数
      */
-    int getLineLength();
+    int getColumnSize();
 }

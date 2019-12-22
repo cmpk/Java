@@ -22,7 +22,10 @@ public class DateWithYearMonthDateValidator implements ConstraintValidator<DateW
 
     @Override
     public final boolean isValid(final String value, final ConstraintValidatorContext context) {
-        boolean ret = (isNullable && StringUtils.isEmpty(value)) ? true : isValidFormat(DEFAULT_FORMAT, value);
+        if (StringUtils.isEmpty(value)) {
+            return this.isNullable ? true : false;
+        }
+        boolean ret = isValidFormat(DEFAULT_FORMAT, value);
         if (!ret) {
             HibernateConstraintValidatorContext hContext = context.unwrap(HibernateConstraintValidatorContext.class);
             hContext.addMessageParameter("value", value);

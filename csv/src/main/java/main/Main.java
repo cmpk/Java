@@ -8,9 +8,10 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
-import csv.ICSVEntity;
 import csv.CSVReader;
+import csv.ICSVEntity;
 import validation.ValidationUtility;
+import validation.seq.CheckSequence;
 
 /**
  * お世話になったサイト.
@@ -25,12 +26,12 @@ public final class Main {
         try {
             list = read();
             list.forEach(entity -> {
-                Set<ConstraintViolation<ICSVEntity>> constraintViolations = validator.validate(entity);
-                int errorCount = constraintViolations.size();
+                Set<ConstraintViolation<ICSVEntity>> violations = validator.validate(entity, CheckSequence.class);
+                int errorCount = violations.size();
                 System.out.println("----------");
                 System.out.println("validate error count : " + errorCount);
                 if (errorCount > 0) {
-                    printErrors(constraintViolations);
+                    printErrors(violations);
                 }
             });
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {

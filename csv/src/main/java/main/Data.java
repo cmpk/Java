@@ -10,41 +10,45 @@ import lombok.Getter;
 import validation.ColumnSize;
 import validation.DateWithYearMonthDate;
 import validation.IPv4Address;
+import validation.seq.FirstCheck;
+import validation.seq.SecondCheck;
 
 public class Data implements ICSVEntity {
     private static final long serialVersionUID = 1L;
 
-    public static final int COLUMN_LENGTH = 5;
-
-    @ColumnSize(size = COLUMN_LENGTH)
-    private int lineLength = 0;
+    // CHECKSTYLE:OFF  // マジックナンバーに対する checkstyle 抑制
+    @ColumnSize(size = 5, groups = FirstCheck.class)
+    private int columnSize = 0;
+    // CHECKSTYLE:ON
 
     @Getter
-    @DateWithYearMonthDate(nullable = true)
+    @DateWithYearMonthDate(nullable = true, groups = SecondCheck.class)
     private String date = null;
 
     @Getter
-    @NotEmpty
+    @NotEmpty(groups = SecondCheck.class)
     private String title = null;
 
+    // CHECKSTYLE:OFF  // マジックナンバーに対する checkstyle 抑制
     @Getter
-    @Digits(integer = 6, fraction = 0)
-    @Min(0)
+    @Digits(integer = 6, fraction = 0, groups = SecondCheck.class)
+    @Min(value = 0, groups = SecondCheck.class)
     private String count = null;
+    // CHECKSTYLE:ON
 
     @Getter
-    @IPv4Address(nullable = true)
+    @IPv4Address(nullable = true, groups = SecondCheck.class)
     private String ipAddress = null;
 
     @Getter
-    @Size(min = 0)
+    @Size(min = 0, groups = SecondCheck.class)
     private String notes = null;
 
     @Override
     public final void setData(final String[] data) {
-        this.lineLength = data.length;
+        this.columnSize = data.length;
         try {
-            // CHECKSTYLE:OFF // マジックナンバーに対する checkstyle 抑制
+            // CHECKSTYLE:OFF  // マジックナンバーに対する checkstyle 抑制
             this.date = data[0];
             this.title = data[1];
             this.count = data[2];
@@ -52,12 +56,12 @@ public class Data implements ICSVEntity {
             this.notes = data[4];
             // CHECKSTYLE:ON
         } catch (ArrayIndexOutOfBoundsException e) {
-            // pass
+            // pass （受け取った行のカラム数が足りない場合に発生）
         }
     }
 
     @Override
-    public final int getLineLength() {
-        return this.lineLength;
+    public final int getColumnSize() {
+        return this.columnSize;
     }
 }

@@ -17,6 +17,12 @@ repositories {
     // Use jcenter for resolving dependencies.
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
+    mavenCentral()
+}
+
+apply plugin: 'eclipse'
+test {
+    useJUnitPlatform()
 }
 
 dependencies {
@@ -31,4 +37,10 @@ dependencies {
 
     // Nullチェック用
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
+
+    // パラメータテストの記載を簡略化するため、JUnit 5 を使用
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.4.0' //テスト記述用
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.4.0' //テスト実行用
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.4.0' //パラメータテスト用
+    testRuntime group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.4.0' //eclipseからのテスト実行用
 }

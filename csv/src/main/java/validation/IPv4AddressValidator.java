@@ -17,16 +17,14 @@ public class IPv4AddressValidator implements ConstraintValidator<IPv4Address, St
 
     @Override
     public final boolean isValid(final String value, final ConstraintValidatorContext context) {
-        boolean ret = (isNullable && StringUtils.isEmpty(value)) ? true : isValidFormat(value);
+        if (StringUtils.isEmpty(value)) {
+            return this.isNullable ? true : false;
+        }
+        boolean ret = value.matches(IPV4_FORMAT);
         if (!ret) {
             HibernateConstraintValidatorContext hContext = context.unwrap(HibernateConstraintValidatorContext.class);
             hContext.addMessageParameter("value", value);
         }
         return ret;
     }
-
-    private static boolean isValidFormat(final String value) {
-        return value.matches(IPV4_FORMAT);
-    }
-
 }
