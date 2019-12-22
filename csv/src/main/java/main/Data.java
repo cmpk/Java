@@ -12,38 +12,47 @@ import validation.DateWithYearMonthDate;
 import validation.IPv4Address;
 
 public class Data implements ICSVEntity {
-    public static final int COLUMN_LENGTH = 5;
     private static final long serialVersionUID = 1L;
+
+    public static final int COLUMN_LENGTH = 5;
 
     @ColumnSize(size = COLUMN_LENGTH)
     private int lineLength = 0;
 
-    @Getter @DateWithYearMonthDate(nullable = true)
+    @Getter
+    @DateWithYearMonthDate(nullable = true)
     private String date = null;
 
-    @Getter @NotEmpty
+    @Getter
+    @NotEmpty
     private String title = null;
 
-    @Getter @Digits(integer = 6, fraction = 0) @Min(0)
+    @Getter
+    @Digits(integer = 6, fraction = 0)
+    @Min(0)
     private String count = null;
 
-    @Getter @IPv4Address(nullable = true)
+    @Getter
+    @IPv4Address(nullable = true)
     private String ipAddress = null;
 
-    @Getter @Size(min = 0)
+    @Getter
+    @Size(min = 0)
     private String notes = null;
 
     @Override
     public final void setData(final String[] data) {
         this.lineLength = data.length;
         try {
+            // CHECKSTYLE:OFF // マジックナンバーに対する checkstyle 抑制
             this.date = data[0];
             this.title = data[1];
             this.count = data[2];
             this.ipAddress = data[3];
             this.notes = data[4];
+            // CHECKSTYLE:ON
         } catch (ArrayIndexOutOfBoundsException e) {
-            //pass
+            // pass
         }
     }
 

@@ -6,7 +6,9 @@ fradlew.bat
 dradlew
 
 # Ignore Eclipse files
+.checkstyle
 .classpath
 .project
 .settings
 bin
+
