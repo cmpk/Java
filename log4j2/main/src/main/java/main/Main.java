@@ -1,19 +1,41 @@
 package main;
 
+import java.io.IOException;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
+import common.conf.Log4j2Attributes;
+
 /**
- * Apache log4j 2 „Çµ„É≥„Éó„É´„Ç≥„Éº„Éâ.
+ * Apache log4j 2 ÉTÉìÉvÉãÉRÅ[Éh.
  */
 public final class Main {
 
     public static void main(final String[] args) {
         System.out.println("Start");
+
+        // log4j 2 ê›íËÇämîFÇµÇƒÇ›ÇÈ
+        try {
+            Log4j2Attributes logConf = Log4j2Attributes.newInstance("conf/log4j2.xml");
+            logConf.getFileList().forEach(file -> {
+                System.out.println(file.getName() + ": " + file.getFileName());
+            });
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+            // TODO é©ìÆê∂ê¨Ç≥ÇÍÇΩ catch ÉuÉçÉbÉN
+            e.printStackTrace();
+        }
+
+        // ÉçÉOèoóÕ
         MyApplication app = new MyApplication();
         app.doBusinessLogic();
+
+
         System.out.println("End");
     }
 
     private Main() {
-        // ‰Ωï„ÇÇ„Åó„Å™„ÅÑ
+        // âΩÇ‡ÇµÇ»Ç¢
     }
-
 }

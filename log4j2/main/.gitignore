@@ -6,6 +6,7 @@ fradlew.bat
 dradlew
 
 # Ignore Eclipse files
+*.log
 .classpath
 .project
 .settings

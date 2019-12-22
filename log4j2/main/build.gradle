@@ -8,6 +8,16 @@ apply plugin: 'java'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+apply plugin: 'checkstyle'
+
+sourceSets {
+    main {
+        resources {
+            srcDirs 'conf'
+        }
+    }
+}
+
 repositories {
     // Use jcenter for resolving dependencies.
     // You can declare any Maven/Ivy/file repository here.

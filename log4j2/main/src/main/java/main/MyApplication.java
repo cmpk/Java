@@ -4,11 +4,21 @@ import common.BaseLogger;
 
 public class MyApplication extends BaseLogger {
     public void doBusinessLogic() {
-        this.logger.trace("ãƒˆãƒ¬ãƒ¼ã‚¹ãƒ†ã‚¹ãƒˆ");
-        this.logger.debug("ãƒ‡ãƒãƒƒã‚°ãƒ†ã‚¹ãƒˆ");
-        this.logger.info("æƒ…å ±ãƒ†ã‚¹ãƒˆ");
-        this.logger.warn("è­¦å‘Šãƒ†ã‚¹ãƒˆ");
-        this.logger.error("ã‚¨ãƒ©ãƒ¼ãƒ†ã‚¹ãƒˆ");
-        this.logger.fatal("è‡´å‘½ãƒ†ã‚¹ãƒˆ");
+        this.logger.trace("ƒgƒŒ[ƒXƒeƒXƒg");
+        this.logger.debug("ƒfƒoƒbƒOƒeƒXƒg");
+        this.logger.info("î•ñƒeƒXƒg");
+        this.logger.warn("ŒxƒeƒXƒg");
+        occurError();
+        this.logger.fatal("’v–½ƒeƒXƒg");
+    }
+
+    private boolean occurError( ) {
+        boolean[] array = {};
+        try {
+            return array[0];
+        } catch(Exception e) {
+            this.logger.error("ƒGƒ‰[ƒeƒXƒg", e);
+        }
+        return true;
     }
 }

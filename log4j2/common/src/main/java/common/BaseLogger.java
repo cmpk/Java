@@ -4,10 +4,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /***
- * ãƒ­ã‚®ãƒ³ã‚°å…±é€šå®Ÿè£….
+ * ƒƒMƒ“ƒO‹¤’ÊÀ‘•.
  *
- * åˆ©ç”¨æ–¹æ³•
- * è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã¨ãã®å†…å®¹ã«ã¤ã„ã¦ã¯ã€{@see <a href="https://logging.apache.org/log4j/2.x/manual/configuration.html">Apache log4j 2 Configuration</a>} ã‚’å‚ç…§ã®ã“ã¨ã€‚
+ * —˜—p•û–@
+ * İ’èƒtƒ@ƒCƒ‹‚Æ‚»‚Ì“à—e‚É‚Â‚¢‚Ä‚ÍA{@see <a href="https://logging.apache.org/log4j/2.x/manual/configuration.html">Apache log4j 2 Configuration</a>} ‚ğQÆ‚Ì‚±‚ÆB
  *
  */
 public abstract class BaseLogger {
