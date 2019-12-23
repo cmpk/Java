@@ -5,7 +5,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-import csv.ICSVEntity;
+import csv.CSVUtility;
+import csv.ICSVLine;
 import lombok.Getter;
 import validation.ColumnSize;
 import validation.DateWithYearMonthDate;
@@ -13,13 +14,11 @@ import validation.IPv4Address;
 import validation.seq.FirstCheck;
 import validation.seq.SecondCheck;
 
-public class Data implements ICSVEntity {
+public class DataLine implements ICSVLine {
     private static final long serialVersionUID = 1L;
 
-    // CHECKSTYLE:OFF  // マジックナンバーに対する checkstyle 抑制
-    @ColumnSize(size = 5, groups = FirstCheck.class)
+    @ColumnSize(size = DataLines.COLUMN_SIZE, groups = FirstCheck.class)
     private int columnSize = 0;
-    // CHECKSTYLE:ON
 
     @Getter
     @DateWithYearMonthDate(nullable = true, groups = SecondCheck.class)
@@ -45,15 +44,20 @@ public class Data implements ICSVEntity {
     private String notes = null;
 
     @Override
-    public final void setData(final String[] data) {
-        this.columnSize = data.length;
+    public final int getColumnSize() {
+        return this.columnSize;
+    }
+
+    @Override
+    public void setLine(String[] values) {
+        this.columnSize = values.length;
         try {
             // CHECKSTYLE:OFF  // マジックナンバーに対する checkstyle 抑制
-            this.date = data[0];
-            this.title = data[1];
-            this.count = data[2];
-            this.ipAddress = data[3];
-            this.notes = data[4];
+            this.date = values[0];
+            this.title = values[1];
+            this.count = values[2];
+            this.ipAddress = values[3];
+            this.notes = values[4];
             // CHECKSTYLE:ON
         } catch (ArrayIndexOutOfBoundsException e) {
             // pass （受け取った行のカラム数が足りない場合に発生）
@@ -61,7 +65,7 @@ public class Data implements ICSVEntity {
     }
 
     @Override
-    public final int getColumnSize() {
-        return this.columnSize;
+    public String[] getLine() {
+        return new String[] {CSVUtility.toString(this.date), CSVUtility.toString(this.title), CSVUtility.toString(this.count), CSVUtility.toString(this.ipAddress), CSVUtility.toString(this.notes)};
     }
 }

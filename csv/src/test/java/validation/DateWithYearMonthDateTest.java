@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import csv.ICSVEntity;
+import csv.ICSVLine;
 
 class DateWithYearMonthDateTest {
     private Validator validator = null;
@@ -27,7 +27,7 @@ class DateWithYearMonthDateTest {
     @DisplayName("値がNullの場合にエラーとなること")
     public final void testNegativeWhenNull() {
         NotNullBean bean = new NotNullBean(null);
-        Set<ConstraintViolation<ICSVEntity>> violations = this.validator.validate(bean);
+        Set<ConstraintViolation<ICSVLine>> violations = this.validator.validate(bean);
         assertFalse(violations.isEmpty());
     }
 
@@ -36,7 +36,7 @@ class DateWithYearMonthDateTest {
     @DisplayName("値がYYYY/MM/DDの形式でない場合にエラーとなること")
     public final void testNegativeWhenInvalidFormat(String str) {
         NotNullBean bean = new NotNullBean(str);
-        Set<ConstraintViolation<ICSVEntity>> violations = this.validator.validate(bean);
+        Set<ConstraintViolation<ICSVLine>> violations = this.validator.validate(bean);
         assertFalse(violations.isEmpty());
     }
 
@@ -45,11 +45,11 @@ class DateWithYearMonthDateTest {
     @DisplayName("値がYYYY/MM/DDの形式の場合にエラーにならないこと")
     public final void testPositive(String str) {
         NotNullBean bean = new NotNullBean(str);
-        Set<ConstraintViolation<ICSVEntity>> violations = this.validator.validate(bean);
+        Set<ConstraintViolation<ICSVLine>> violations = this.validator.validate(bean);
         assertTrue(violations.isEmpty());
     }
 
-    private static class NotNullBean implements ICSVEntity {
+    private static class NotNullBean implements ICSVLine {
         @DateWithYearMonthDate(nullable = false)
         private String dateStr = null;
 
@@ -58,13 +58,19 @@ class DateWithYearMonthDateTest {
         }
 
         @Override
-        public void setData(final String[] data) {
+        public void setLine(final String[] data) {
             // pass
         }
 
         @Override
         public int getColumnSize() {
             return 0;
+        }
+
+        @Override
+        public String[] getLine() {
+            // TODO 自動生成されたメソッド・スタブ
+            return null;
         }
     }
 }

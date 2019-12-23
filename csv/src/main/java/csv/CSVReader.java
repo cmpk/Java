@@ -5,8 +5,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CSVReader {
     public static final String DEFAULT_SEPARATOR = ",";
@@ -25,7 +23,7 @@ public class CSVReader {
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    public List<ICSVEntity> read(final Class<ICSVEntity> clazz, final String filepath, final String separator) throws FileNotFoundException, InstantiationException, IllegalAccessException, IOException, ClassNotFoundException {
+    public ICSVLines read(final Class<ICSVLines> clazz, final String filepath, final String separator) throws FileNotFoundException, InstantiationException, IllegalAccessException, IOException, ClassNotFoundException {
         return read(clazz, filepath, separator, DEFAULT_INCLUDE_HEADER);
     }
 
@@ -42,7 +40,7 @@ public class CSVReader {
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    public List<ICSVEntity> read(final Class<ICSVEntity> clazz, final String filepath, final boolean includeHeader) throws FileNotFoundException, InstantiationException, IllegalAccessException, IOException, ClassNotFoundException {
+    public ICSVLines read(final Class<ICSVLines> clazz, final String filepath, final boolean includeHeader) throws FileNotFoundException, InstantiationException, IllegalAccessException, IOException, ClassNotFoundException {
         return read(clazz, filepath, DEFAULT_SEPARATOR, includeHeader);
     }
 
@@ -58,7 +56,7 @@ public class CSVReader {
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    public List<ICSVEntity> read(final Class<ICSVEntity> clazz, final String filepath) throws FileNotFoundException, InstantiationException, IllegalAccessException, IOException, ClassNotFoundException {
+    public ICSVLines read(final Class<ICSVLines> clazz, final String filepath) throws FileNotFoundException, InstantiationException, IllegalAccessException, IOException, ClassNotFoundException {
         return read(clazz, filepath, DEFAULT_SEPARATOR, DEFAULT_INCLUDE_HEADER);
     }
 
@@ -81,8 +79,8 @@ public class CSVReader {
      * @throws ClassNotFoundException classpath が見つからない場合に発生.
      *                                詳細は{@see ClassNotFoundException}を参照のこと.
      */
-    public List<ICSVEntity> read(final Class<ICSVEntity> clazz, final String filepath, final String separator, final boolean includeHeader) throws FileNotFoundException, IOException, InstantiationException, IllegalAccessException, ClassNotFoundException {
-        List<ICSVEntity> list = new ArrayList<ICSVEntity>();
+    public ICSVLines read(final Class<ICSVLines> clazz, final String filepath, final String separator, final boolean includeHeader) throws FileNotFoundException, IOException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+        ICSVLines lines = getCSVLines(clazz);
 
         File file = new File(filepath);
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -92,20 +90,19 @@ public class CSVReader {
 
             String line = null;
             while ((line = br.readLine()) != null) {
-                String[] data = line.split(separator, 0);
+                String[] values = line.split(separator, 0);
 
-                ICSVEntity entity = getCSVEntity(clazz, data);
-                list.add(entity);
+
+                lines.addLine(values);
             }
         }
-        System.out.println(this.getClass().getName() + " : csv has " + list.size() + " lines as data.");
+        System.out.println(this.getClass().getName() + " : csv has " + lines.size() + " lines as data.");
 
-        return list;
+        return lines;
     }
 
-    private ICSVEntity getCSVEntity(final Class<ICSVEntity> clazz, final String[] data) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-        ICSVEntity entity = (ICSVEntity) clazz.newInstance();
-        entity.setData(data);
+    private ICSVLines getCSVLines(final Class<ICSVLines> clazz) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+        ICSVLines entity = (ICSVLines) clazz.newInstance();
         return entity;
     }
 }

@@ -2,14 +2,20 @@ package csv;
 
 import java.io.Serializable;
 
-public interface ICSVEntity extends Serializable {
+public interface ICSVLine extends Serializable {
 
     /**
      * データ1行分を本インスタンスに設定する.
      *
-     * @param data データ1行分
+     * @param values データ1行分
      */
-    void setData(String[] data);
+    void setLine(String[] values);
+
+    /**
+     * データ1行分を取得する.
+     * @return データ1行分
+     */
+    String[] getLine();
 
     /**
      * データ1行分のカラム数.

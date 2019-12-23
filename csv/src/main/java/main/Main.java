@@ -2,14 +2,15 @@ package main;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import csv.CSVReader;
-import csv.ICSVEntity;
+import csv.CSVWriter;
+import csv.ICSVLine;
+import csv.ICSVLines;
 import validation.ValidationUtility;
 import validation.seq.CheckSequence;
 
@@ -22,18 +23,18 @@ import validation.seq.CheckSequence;
 public final class Main {
     public static void main(final String[] args) {
         Validator validator = ValidationUtility.getValidator();
-        List<ICSVEntity> list = null;
+        ICSVLines csvLines = null;
         try {
-            list = read();
-            list.forEach(entity -> {
-                Set<ConstraintViolation<ICSVEntity>> violations = validator.validate(entity, CheckSequence.class);
+            csvLines = read();
+            for(ICSVLine line : csvLines) {
+                Set<ConstraintViolation<ICSVLine>> violations = validator.validate(line, CheckSequence.class);
                 int errorCount = violations.size();
                 System.out.println("----------");
                 System.out.println("validate error count : " + errorCount);
                 if (errorCount > 0) {
                     printErrors(violations);
                 }
-            });
+            }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             // TODO 自動生成された catch ブロック
             e.printStackTrace();
@@ -44,11 +45,12 @@ public final class Main {
             return;
         }
 
-        System.out.println("==========");
-        list.forEach(entity -> {
-            Data data = (Data) entity;
-            System.out.println(data.getDate() + ", " + data.getTitle() + ", " + data.getCount() + ", " + data.getNotes());
-        });
+        try {
+            new CSVWriter().write(csvLines, "files/out.csv");
+        } catch (IOException e) {
+            // TODO 自動生成された catch ブロック
+            e.printStackTrace();
+        }
     }
 
     private static <T> void printErrors(final Set<ConstraintViolation<T>> constraintViolations) {
@@ -73,7 +75,7 @@ public final class Main {
      * @throws IOException
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    private static List<ICSVEntity> read() throws FileNotFoundException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException {
-        return new CSVReader().read((Class) Data.class, "files/data.csv");
+    private static ICSVLines read() throws FileNotFoundException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException {
+        return new CSVReader().read((Class) DataLines.class, "files/data.csv");
     }
 }

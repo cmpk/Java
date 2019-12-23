@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import csv.ICSVEntity;
+import csv.ICSVLine;
 
 class ColumnSizeValidatorTest {
     private Validator validator = null;
@@ -27,7 +27,7 @@ class ColumnSizeValidatorTest {
     @DisplayName("値がNullの場合にエラーとなること")
     public final void testNegativeWhenNull() {
         TestBean bean = new TestBean(null);
-        Set<ConstraintViolation<ICSVEntity>> violations = this.validator.validate(bean);
+        Set<ConstraintViolation<ICSVLine>> violations = this.validator.validate(bean);
         assertFalse(violations.isEmpty());
     }
 
@@ -36,7 +36,7 @@ class ColumnSizeValidatorTest {
     @DisplayName("値が1でない場合にエラーとなること")
     public final void testNegativeWhenInvalidNumber(int value) {
         TestBean bean = new TestBean(value);
-        Set<ConstraintViolation<ICSVEntity>> violations = this.validator.validate(bean);
+        Set<ConstraintViolation<ICSVLine>> violations = this.validator.validate(bean);
         assertFalse(violations.isEmpty());
     }
 
@@ -44,11 +44,11 @@ class ColumnSizeValidatorTest {
     @DisplayName("値が1の場合にエラーにならないこと")
     public final void testPositive() {
         TestBean bean = new TestBean(1);
-        Set<ConstraintViolation<ICSVEntity>> violations = this.validator.validate(bean);
+        Set<ConstraintViolation<ICSVLine>> violations = this.validator.validate(bean);
         assertTrue(violations.isEmpty());
     }
 
-    private static class TestBean implements ICSVEntity {
+    private static class TestBean implements ICSVLine {
         @ColumnSize(size = 1)
         private Integer columnSize = null;
 
@@ -57,13 +57,19 @@ class ColumnSizeValidatorTest {
         }
 
         @Override
-        public void setData(final String[] data) {
+        public void setLine(final String[] data) {
             // pass
         }
 
         @Override
         public int getColumnSize() {
             return this.columnSize;
+        }
+
+        @Override
+        public String[] getLine() {
+            // TODO 自動生成されたメソッド・スタブ
+            return null;
         }
     }
 }
