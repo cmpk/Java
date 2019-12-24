@@ -26,16 +26,21 @@ public class SharedFolderAccessor {
      * @return 利用可能なドライブ文字列.
      */
     public String searchDriveLetter(List<String> outputs) {
+        outputs = (outputs == null) ? new ArrayList<String>() : outputs;
         char c = 'Z';
         for (int i = 0; i < 26; i++) {
             String[] commandList = {"cmd", "/c", "if not exist " + c + ":\\ echo " + c};
-            outputs = (outputs == null) ? new ArrayList<String>() : outputs;
+            List<String> out = new ArrayList<String>();
             try {
-                Command.run("./", commandList, this.stdoutCharset, outputs);
+                Command.run("./", commandList, this.stdoutCharset, out);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if (outputs.size() == 1 && outputs.get(0).length() == 1) {
+            if (out.size() > 0) {
+                // 出力内容を呼び出し元に返すための引数に追加する
+                outputs.addAll(out);
+            }
+            if (out.size() == 1 && out.get(0).length() == 1) {
                 return outputs.get(0);
             }
             c--;

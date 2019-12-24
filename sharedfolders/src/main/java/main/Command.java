@@ -13,24 +13,39 @@ import java.util.concurrent.TimeUnit;
  * お世話になったサイト: https://blog.y-yuki.net/entry/2018/10/13/213000
  *
  */
-public class Command {
-    public static final long DEFAULT_TIMEOUT_SECOND = 10L;
-
+public final class Command {
     /**
-     * コマンドを実行する.
-     *
+     * コマンドを実行する. コマンド実行後はコマンドが終了するまで待機する.
      * すでに実行中のコマンドがある場合は、実行中のコマンドを強制終了してからコマンドを実行する.
      *
-     * @param execDirPath 実行ディレクトリ.
-     * @param command 実行するコマンド.
+     * @param execDirPath
+     * @param command
+     * @param stdoutCharset
+     * @param outputs
+     * @return
+     * @throws InterruptedException
+     * @throws IOException
+     */
+    public static int run(final String execDirPath, final String[] command, final String stdoutCharset, final List<String> outputs) throws InterruptedException, IOException {
+        return Command.run(execDirPath, command, stdoutCharset, outputs, 0, null);
+    }
+
+    /**
+     * コマンドを実行する. 指定されたタイムアウト時間を過ぎてもコマンドが終了しない場合は、終了コードとして-1を返す.
+     * すでに実行中のコマンドがある場合は、実行中のコマンドを強制終了してからコマンドを実行する.
+     *
+     * @param execDirPath   実行ディレクトリ.
+     * @param command       実行するコマンド.
      * @param stdoutCharset 標準出力の文字コード. これを指定しないと受け取った文字列が文字化けする.
-     * @param outputs 標準出力に出力された内容を格納するインスタンス.
+     * @param outputs       標準出力に出力された内容を格納するインスタンス.
+     * @param timeout       タイムアウト. 0を指定した場合は、コマンドが終了するまで待機する.
+     * @param timeUnit      タイムアウトの単位
      * @return 終了コード.
-     * @throws IOException @see {@link ProcessBuilder#start()}, @see {@link InputStream#read()}
+     * @throws IOException          @see {@link ProcessBuilder#start()}, @see{@link InputStream#read()}
      * @throws InterruptedException @see {@link Process#waitFor(long, TimeUnit)}
      */
-    public static int run(final String execDirPath, final String[] command, final String stdoutCharset, List<String> outputs) throws InterruptedException, IOException {
-        System.out.println(String.join(" ", command));
+    public static int run(final String execDirPath, final String[] command, final String stdoutCharset, final List<String> outputs, final long timeout, final TimeUnit timeUnit) throws InterruptedException, IOException {
+        System.out.println(String.join(" ", command)); //TODO 削除
 
         ProcessBuilder builder = new ProcessBuilder(command);
         builder.directory(new File(execDirPath));
@@ -45,7 +60,7 @@ public class Command {
         }
 
         // read stdout
-        final Process p = proc; //TODO final付の変数を使わないとThread()内で怒られる
+        final Process p = proc; // TODO final付の変数を使わないとThread()内で怒られる
         new Thread(() -> {
             try (InputStream is = p.getInputStream()) {
                 try (BufferedReader br = new BufferedReader(new InputStreamReader(is, stdoutCharset))) {
@@ -63,26 +78,31 @@ public class Command {
             }
         }).start();
 
-        boolean end = false;
+        int exitCode = -1;
         try {
-            end = proc.waitFor(DEFAULT_TIMEOUT_SECOND, TimeUnit.SECONDS);
+            if (timeout == 0) {
+                exitCode = proc.waitFor(); // コマンドが終了するまで待機する
+            } else {
+                if (proc.waitFor(timeout, timeUnit)) {
+                    exitCode = proc.exitValue();
+                }
+            }
         } catch (InterruptedException e) {
             close(proc);
             throw e;
-        }
-        int exitCode = 1;
-        if (end) {
-            exitCode = proc.exitValue();
         }
 
         return exitCode;
     }
 
-    private static void close(Process proc) {
+    private static void close(final Process proc) {
         if (proc != null) {
             if (proc.isAlive()) {
                 proc.destroy();
             }
         }
+    }
+
+    private Command() {
     }
 }

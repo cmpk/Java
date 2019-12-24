@@ -6,9 +6,9 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class Main {
+public final class Main {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         PropertyStorage prop;
         try {
             prop = new PropertyStorage("./app.properties", "UTF-8");
@@ -51,5 +51,8 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private Main() {
     }
 }
