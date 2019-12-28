@@ -10,3 +10,6 @@ gradlew.bat
 .project
 .settings
 bin
+
+# Ignore files including personal information
+conf/mail.properties
