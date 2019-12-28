@@ -1,25 +1,22 @@
-# Apache FreeMarker の使用方法調査  
+# Apache FreeMarker を使用したメール作成とメール送信方法調査  
 
 ## 目的
 * [Apache FreeMarker](https://freemarker.apache.org/) の使用方法を調査する  
-* JavaMail を使用したメール送信方法を調査する  
+* [Java Mail](https://javaee.github.io/javamail/) を使用したメール送信方法を調査する  
 
 ## 前提条件
-ソースコードと設定ファイルの文字コードは SJIS（MS932） とする。(*1)  
+* ソースコードと設定ファイルの文字コードは SJIS（MS932） とする。(*1)  
+* GMail を利用する。
+  * 対象Googleアカウントにて安全性の低いアプリへのアクセスを有効にしていること  
+    [Google アカウントを管理] > [セキュリティ] > [安全性の低いアプリのアクセス]
 
 ## フォルダ構成
 ```
-<project root>
-  ├ common
-  └ main
-```
-
-## 実行時フォルダ構成
-```
 <root>
-  ├ conf/
+  ├ <this project>
+  ｜  ├ conf/
   ｜  └ *.ftl
-  └ libs
+  └ <properties project>
       └ *.jar
 
 ```

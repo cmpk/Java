@@ -16,7 +16,9 @@ import freemarker.template.TemplateException;
  *
  */
 public abstract class BaseTemplate {
-    protected final Configuration conf;
+    // CHECKSTYLE:OFF
+    protected final Configuration conf;  //継承先で自由に使用できるようにするため、protectedとする
+    // CHECKSTYLE:ON
 
     public BaseTemplate() {
         this.conf = new Configuration(Configuration.VERSION_2_3_29);
@@ -31,7 +33,7 @@ public abstract class BaseTemplate {
      * @throws TemplateException
      * @throws IOException
      */
-    protected String build(final String directory, final String filename) throws TemplateException, IOException {
+    public String build(final String directory, final String filename) throws TemplateException, IOException {
         this.conf.setDirectoryForTemplateLoading(new File(directory));
         Template template = this.conf.getTemplate(filename);
 
@@ -43,6 +45,5 @@ public abstract class BaseTemplate {
         return out.toString();
     }
 
-    public abstract String build();
     public abstract Map<String, Object> getParameters();
 }

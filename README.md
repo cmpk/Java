@@ -10,11 +10,11 @@
 
 ## 一覧
 
-| ディレクトリ | 内容                                            | 依存プロジェクト                       | 主要依存ライブラリ, 参考サイト |
-| ------------ | ----------------------------------------------- | -------------------------------------- | ------------------------------ |
-| csv          | CSVの読込と書込み <br> 各値のバリデーション     | -                                      | [Apache Commons CSV](https://commons.apache.org/proper/commons-csv/) <br> [Bean Validation](https://beanvalidation.org/) |
-| log4j2       | ロギングの仕方                                  | -                                      | - |
-| javamail     | メール内容作成にテンプレート（freemarker）を使用してメール送信 | - |
+| ディレクトリ | 内容                                         | 依存プロジェクト              | 主要依存ライブラリ, 参考サイト |
+| ------------ | -------------------------------------------- | ----------------------------- | ------------------------------ |
+| csv          | CSVの読込と書込み <br> 各値のバリデーション  | -                             | [Apache Commons CSV](https://commons.apache.org/proper/commons-csv/) <br> [Bean Validation](https://beanvalidation.org/) |
+| javamail     | メール内容作成にテンプレート（freemarker）を使用してメール送信 | properties  | [Java Mail](https://javaee.github.io/javamail/) <br> [Apache FreeMaker](https://freemarker.apache.org/)|
+| log4j2       | ロギングの仕方                               | -                             | - |
 
 ## checkstyle について
 

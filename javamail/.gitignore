@@ -2,8 +2,8 @@
 .gradle
 build
 gradle
-fradlew.bat
-dradlew
+gradlew
+gradlew.bat
 
 # Ignore Eclipse files
 .classpath
