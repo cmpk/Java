@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import common.Command;
+
 /**
  * Windows 共有フォルダにアクセスするための操作を提供する.
  */
@@ -12,10 +14,10 @@ public class SharedFolderAccessor {
 
     /**
      * コンストラクタ.
-     * @param stdoutCharset {@see Command#Command(String[], String)}
+     * @param charset @see Command#Command(String[], String)
      */
-    public SharedFolderAccessor(final String stdoutCharset) {
-        this.stdoutCharset = stdoutCharset;
+    public SharedFolderAccessor(final String charset) {
+        this.stdoutCharset = charset;
     }
 
     /**
@@ -29,7 +31,7 @@ public class SharedFolderAccessor {
         outputs = (outputs == null) ? new ArrayList<String>() : outputs;
         char c = 'Z';
         for (int i = 0; i < 26; i++) { //SUPPRESS CHECKSTYLE ignore magic number
-            String[] commandList = {"cmd", "/c", "if not exist " + c + ":\\ echo " + c};
+            String[] commandList = {"if not exist " + c + ":\\ echo " + c};
             List<String> out = new ArrayList<String>();
             try {
                 Command.run("./", commandList, this.stdoutCharset, out);
@@ -61,11 +63,15 @@ public class SharedFolderAccessor {
      * @throws InterruptedException  {@see Command#run(String, String[], String, List)}
      */
     public boolean assignNetworkDrive(final String driveLetter, final String sharedDirPath, final String userId, final String password, List<String> outputs) throws InterruptedException, IOException {
-        String[] commandList = {"cmd", "/c", "net use", driveLetter + ":", sharedDirPath, password, "/USER:" + userId};
+        String[] commandList = {"net use", driveLetter + ":", sharedDirPath, password, "/USER:" + userId};
         outputs = (outputs == null) ? new ArrayList<String>() : outputs;
         int exitCode = Command.run("./", commandList, this.stdoutCharset, outputs);
 
-        return (exitCode == 0);
+        if (exitCode == 0) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -77,10 +83,14 @@ public class SharedFolderAccessor {
      * @throws InterruptedException {@see Command#run(String, String[], String, List)}
      */
     public boolean deleteNetworkDrive(final String driveLetter, List<String> outputs) throws InterruptedException, IOException {
-        String[] commandList = {"cmd", "/c", "net use", driveLetter + ":", "/delete"};
+        String[] commandList = {"net use", driveLetter + ":", "/delete"};
         outputs = (outputs == null) ? new ArrayList<String>() : outputs;
         int exitCode = Command.run("./", commandList, this.stdoutCharset, outputs);
 
-        return (exitCode == 0);
+        if (exitCode == 0) {
+            return true;
+        }
+
+        return false;
     }
 }

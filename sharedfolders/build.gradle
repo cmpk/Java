@@ -16,5 +16,5 @@ repositories {
 
 dependencies {
     // 依存プロジェクトを指定する
-    compile project(':properties')
+    compile project(':properties'), project(':command')
 }

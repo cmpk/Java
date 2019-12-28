@@ -1,4 +1,4 @@
-package main;
+package common;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,11 +9,14 @@ import java.io.UncheckedIOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 /**
  * お世話になったサイト: https://blog.y-yuki.net/entry/2018/10/13/213000
  *
  */
 public final class Command {
+    public static final int EXIT_CODE_TIMEOUT = -1;
     /**
      * コマンドを実行する. コマンド実行後はコマンドが終了するまで待機する.
      * すでに実行中のコマンドがある場合は、実行中のコマンドを強制終了してからコマンドを実行する.
@@ -40,14 +43,15 @@ public final class Command {
      * @param outputs       標準出力に出力された内容を格納するインスタンス.
      * @param timeout       タイムアウト. 0を指定した場合は、コマンドが終了するまで待機する.
      * @param timeUnit      タイムアウトの単位
-     * @return 終了コード.
-     * @throws IOException          @see {@link ProcessBuilder#start()}, @see{@link InputStream#read()}
-     * @throws InterruptedException @see {@link Process#waitFor(long, TimeUnit)}
+     * @return 終了コード. タイムアウトの場合は {@link Command#EXIT_CODE_TIMEOUT} を返すが、このコードが必ずタイムアウトを示すわけではない.
+     * @throws IOException          @see ProcessBuilder#start(), @see InputStream#read()
+     * @throws InterruptedException @see Process#waitFor(long, TimeUnit)
      */
     public static int run(final String execDirPath, final String[] command, final String stdoutCharset, final List<String> outputs, final long timeout, final TimeUnit timeUnit) throws InterruptedException, IOException {
         System.out.println(String.join(" ", command)); //TODO 削除
 
-        ProcessBuilder builder = new ProcessBuilder(command);
+        String[] cmd = ArrayUtils.addAll(new String[] {"cmd", "/c"}, command);
+        ProcessBuilder builder = new ProcessBuilder(cmd);
         builder.directory(new File(execDirPath));
         builder.redirectErrorStream(true); // merge contents in stderr to stdout
 
@@ -78,7 +82,7 @@ public final class Command {
             }
         }).start();
 
-        int exitCode = -1;
+        int exitCode = EXIT_CODE_TIMEOUT;
         try {
             if (timeout == 0) {
                 exitCode = proc.waitFor(); // コマンドが終了するまで待機する
