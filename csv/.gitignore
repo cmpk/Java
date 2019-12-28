@@ -13,3 +13,4 @@ dradlew
 bin
 
 # Ignore files for test
+work/*
