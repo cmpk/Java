@@ -7,7 +7,7 @@
 <!--
     Checkstyle-Configuration: My Sun Checks
     Description: 
-sun コーディング規約チェックの Checkstyle 構成です。
+sun コーディング規約チェックの Checkstyle 構成をカスタマイズしています。
 -->
 <module name="Checker">
   <property name="severity" value="warning"/>
