@@ -5,6 +5,7 @@
 * [Java Mail](https://javaee.github.io/javamail/) を使用したメール送信方法を調査する  
 
 ## 前提条件
+
 * ソースコードと設定ファイルの文字コードは SJIS（MS932） とする。(*1)  
 * GMail を利用する。
   * 対象Googleアカウントにて安全性の低いアプリへのアクセスを有効にしていること  
@@ -14,8 +15,8 @@
 ```
 <root>
   ├ <this project>
-  ｜  ├ conf/
-  ｜  └ *.ftl
+  ｜  └ conf/
+  ｜      └ *.ftl
   └ <properties project>
       └ *.jar
 

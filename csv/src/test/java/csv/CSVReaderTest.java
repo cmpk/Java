@@ -24,7 +24,7 @@ public class CSVReaderTest {
             fail(e);
         }
 
-        assertEquals(3, csvRecords.size()); //SUPPRESS CHECKSTYLE ignore magic number
+        assertEquals(3, csvRecords.size());
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -39,7 +39,7 @@ public class CSVReaderTest {
             fail(e);
         }
 
-        assertEquals(3, csvRecords.size()); //SUPPRESS CHECKSTYLE ignore magic number
+        assertEquals(3, csvRecords.size());
     }
 
     public static class TestRecords implements ICSVRecords {

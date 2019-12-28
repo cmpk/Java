@@ -49,7 +49,7 @@ public class CSVWriterTest {
             e.printStackTrace();
         }
 
-        assertEquals(4, cnt);  //SUPPRESS CHECKSTYLE ignore magic number
+        assertEquals(4, cnt);
     }
 
     @Test
@@ -73,7 +73,7 @@ public class CSVWriterTest {
             e.printStackTrace();
         }
 
-        assertEquals(3, cnt);  //SUPPRESS CHECKSTYLE ignore magic number
+        assertEquals(3, cnt);
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })

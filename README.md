@@ -10,11 +10,12 @@
 
 ## 一覧
 
-| ディレクトリ | 内容                                         | 依存プロジェクト              | 主要依存ライブラリ, 参考サイト |
-| ------------ | -------------------------------------------- | ----------------------------- | ------------------------------ |
-| csv          | CSVの読込と書込み <br> 各値のバリデーション  | -                             | [Apache Commons CSV](https://commons.apache.org/proper/commons-csv/) <br> [Bean Validation](https://beanvalidation.org/) |
-| javamail     | メール内容作成にテンプレート（freemarker）を使用してメール送信 | properties  | [Java Mail](https://javaee.github.io/javamail/) <br> [Apache FreeMaker](https://freemarker.apache.org/)|
-| log4j2       | ロギングの仕方                               | -                             | - |
+| ディレクトリ | 内容                                         | 依存プロジェクト              | 主要依存ライブラリ, 参考サイト | 備考  |
+| ------------ | -------------------------------------------- | ----------------------------- | ------------------------------ | ----- |
+| csv          | CSVの読込と書込み <br> 各値のバリデーション  | -                             | [Apache Commons CSV](https://commons.apache.org/proper/commons-csv/) <br> [Bean Validation](https://beanvalidation.org/) ||
+| command      | 外部コマンド実行                             | -                             | [Apache Commons Lang](https://commons.apache.org/proper/commons-lang/) | 単独では実行不可。他プロジェクトから利用することを前提としている。|
+| javamail     | メール内容作成にテンプレート（freemarker）を使用してメール送信 | properties  | [Java Mail](https://javaee.github.io/javamail/) <br> [Apache FreeMaker](https://freemarker.apache.org/)||
+| log4j2       | ロギングの仕方                               | -                             | -                              ||
 
 ## checkstyle について
 
@@ -24,6 +25,8 @@
     * フィルター > Suppression With Plain Text Comment Filter
   * お世話になったサイト
     * [敢えて規約を破るケース（Checkstyleの警告抑制）](http://daisuke-m.hatenablog.com/entry/20090914/1252946741)
+* UTは適用対象外としている
+  * File Filters > Before Execution Exclusion File Filter で fileNamePatter に ".*Test.java" を指定
 
 ## Eclipse で Gradle を使用する
 

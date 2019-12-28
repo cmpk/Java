@@ -18,7 +18,7 @@ public class BaseTemplateTest {
         BaseTemplate test = new TestTemplate();
         try {
             String str = test.build("src/test/resources", "test.ftl");
-            assertEquals("value1=1, value2=2, value3=3", str); //SUPPRESS CHECKSTYLE ignore magic number
+            assertEquals("value1=1, value2=2, value3=3", str);
         } catch (TemplateException | IOException e) {
             fail(e);
         }
@@ -28,11 +28,9 @@ public class BaseTemplateTest {
         @Override
         public Map<String, Object> getParameters() {
             Map<String, Object> map = new HashMap<String, Object>();
-            // CHECKSTYLE:OFF
             map.put("value1", 1);
             map.put("value2", 2);
             map.put("value3", 3);
-            // CHECKSTYLE:ON
             return map;
         }
 

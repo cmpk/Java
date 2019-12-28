@@ -111,4 +111,7 @@ sun コーディング規約チェックの Checkstyle 構成をカスタマイ�
     <property name="message" value="Line has trailing spaces."/>
   </module>
   <module name="SuppressWithPlainTextCommentFilter"/>
+  <module name="BeforeExecutionExclusionFileFilter">
+    <property name="fileNamePattern" value=".*Test.java"/>
+  </module>
 </module>
