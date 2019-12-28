@@ -9,8 +9,8 @@ import javax.validation.Validator;
 
 import csv.CSVReader;
 import csv.CSVWriter;
-import csv.ICSVLine;
-import csv.ICSVLines;
+import csv.ICSVRecord;
+import csv.ICSVRecords;
 import validation.ValidationUtility;
 import validation.seq.CheckSequence;
 
@@ -22,33 +22,34 @@ import validation.seq.CheckSequence;
  */
 public final class Main {
     public static void main(final String[] args) {
-        Validator validator = ValidationUtility.getValidator();
-        ICSVLines csvLines = null;
+        // CSVを読み込む
+        ICSVRecords csvRecords = null;
         try {
-            csvLines = read();
-            for(ICSVLine line : csvLines) {
-                Set<ConstraintViolation<ICSVLine>> violations = validator.validate(line, CheckSequence.class);
-                int errorCount = violations.size();
-                System.out.println("----------");
-                System.out.println("validate error count : " + errorCount);
-                if (errorCount > 0) {
-                    printErrors(violations);
-                }
-            }
+            csvRecords = read();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-            // TODO 自動生成された catch ブロック
             e.printStackTrace();
             return;
         } catch (IOException e) {
-            // TODO 自動生成された catch ブロック
             e.printStackTrace();
             return;
         }
 
+        // CSV内容のバリデート
+        Validator validator = ValidationUtility.getValidator();
+        for (ICSVRecord record : csvRecords) {
+            Set<ConstraintViolation<ICSVRecord>> violations = validator.validate(record, CheckSequence.class);
+            int errorCount = violations.size();
+            System.out.println("----------");
+            System.out.println("validate error count : " + errorCount);
+            if (errorCount > 0) {
+                printErrors(violations);
+            }
+        }
+
+        // CSVを書き込む
         try {
-            new CSVWriter().write(csvLines, "files/out.csv");
+            new CSVWriter().write(csvRecords, "work/out.csv");
         } catch (IOException e) {
-            // TODO 自動生成された catch ブロック
             e.printStackTrace();
         }
     }
@@ -75,7 +76,7 @@ public final class Main {
      * @throws IOException
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    private static ICSVLines read() throws FileNotFoundException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException {
-        return new CSVReader().read((Class) DataLines.class, "files/data.csv");
+    private static ICSVRecords read() throws FileNotFoundException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException {
+        return new CSVReader().read((Class) DataRecords.class, "files/data.csv");
     }
 }

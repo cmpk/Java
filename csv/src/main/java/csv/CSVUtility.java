@@ -11,7 +11,7 @@ public final class CSVUtility {
      * @param obj String型に変換するオブジェクト
      * @return 変換した文字列
      */
-    public static String toString(Object obj) {
+    public static String toString(final Object obj) {
         return Objects.toString(obj, "");
     }
 
@@ -22,7 +22,7 @@ public final class CSVUtility {
      * @param format フォーマット
      * @return 変換した文字列
      */
-    public static String toString(Date date, String format) {
+    public static String toString(final Date date, final String format) {
         if (date == null) {
             return "";
         }

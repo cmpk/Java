@@ -7,13 +7,14 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
+import org.apache.commons.csv.CSVRecord;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import csv.ICSVLine;
+import csv.ICSVRecord;
 
 class DateWithYearMonthDateTest {
     private Validator validator = null;
@@ -27,29 +28,29 @@ class DateWithYearMonthDateTest {
     @DisplayName("値がNullの場合にエラーとなること")
     public final void testNegativeWhenNull() {
         NotNullBean bean = new NotNullBean(null);
-        Set<ConstraintViolation<ICSVLine>> violations = this.validator.validate(bean);
+        Set<ConstraintViolation<ICSVRecord>> violations = this.validator.validate(bean);
         assertFalse(violations.isEmpty());
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"", "2003/02/29", "2004/2/29", "2004/13/01", "2004/04/31", "2004/1/1"})
     @DisplayName("値がYYYY/MM/DDの形式でない場合にエラーとなること")
-    public final void testNegativeWhenInvalidFormat(String str) {
+    public final void testNegativeWhenInvalidFormat(final String str) {
         NotNullBean bean = new NotNullBean(str);
-        Set<ConstraintViolation<ICSVLine>> violations = this.validator.validate(bean);
+        Set<ConstraintViolation<ICSVRecord>> violations = this.validator.validate(bean);
         assertFalse(violations.isEmpty());
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"2004/02/29", "2004/01/01"})
     @DisplayName("値がYYYY/MM/DDの形式の場合にエラーにならないこと")
-    public final void testPositive(String str) {
+    public final void testPositive(final String str) {
         NotNullBean bean = new NotNullBean(str);
-        Set<ConstraintViolation<ICSVLine>> violations = this.validator.validate(bean);
+        Set<ConstraintViolation<ICSVRecord>> violations = this.validator.validate(bean);
         assertTrue(violations.isEmpty());
     }
 
-    private static class NotNullBean implements ICSVLine {
+    private static class NotNullBean implements ICSVRecord {
         @DateWithYearMonthDate(nullable = false)
         private String dateStr = null;
 
@@ -58,7 +59,7 @@ class DateWithYearMonthDateTest {
         }
 
         @Override
-        public void setLine(final String[] data) {
+        public void setRecord(final CSVRecord record) {
             // pass
         }
 
@@ -68,8 +69,7 @@ class DateWithYearMonthDateTest {
         }
 
         @Override
-        public String[] getLine() {
-            // TODO 自動生成されたメソッド・スタブ
+        public String[] getRecord() {
             return null;
         }
     }

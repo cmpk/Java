@@ -7,13 +7,14 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
+import org.apache.commons.csv.CSVRecord;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import csv.ICSVLine;
+import csv.ICSVRecord;
 
 class IPv4AddressValidatorTest {
     private Validator validator = null;
@@ -27,29 +28,29 @@ class IPv4AddressValidatorTest {
     @DisplayName("値がNullの場合にエラーとなること")
     public final void testNegativeWhenNull() {
         NotNullBean bean = new NotNullBean(null);
-        Set<ConstraintViolation<ICSVLine>> violations = this.validator.validate(bean);
+        Set<ConstraintViolation<ICSVRecord>> violations = this.validator.validate(bean);
         assertFalse(violations.isEmpty());
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"", "0", "0.0", "0.0.0", "0.0.0.", "a.0.0.0"})
     @DisplayName("値がIPアドレスの形式でない場合にエラーとなること")
-    public final void testNegativeWhenInvalidFormat(String str) {
+    public final void testNegativeWhenInvalidFormat(final String str) {
         NotNullBean bean = new NotNullBean(str);
-        Set<ConstraintViolation<ICSVLine>> violations = this.validator.validate(bean);
+        Set<ConstraintViolation<ICSVRecord>> violations = this.validator.validate(bean);
         assertFalse(violations.isEmpty());
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"0.0.0.0", "12.12.12.12", "255.255.255.255"})
     @DisplayName("値がIPアドレスの形式の場合にエラーにならないこと")
-    public final void testPositive(String str) {
+    public final void testPositive(final String str) {
         NotNullBean bean = new NotNullBean(str);
-        Set<ConstraintViolation<ICSVLine>> violations = this.validator.validate(bean);
+        Set<ConstraintViolation<ICSVRecord>> violations = this.validator.validate(bean);
         assertTrue(violations.isEmpty());
     }
 
-    private static class NotNullBean implements ICSVLine {
+    private static class NotNullBean implements ICSVRecord {
         @IPv4Address(nullable = false)
         private String ipv4Address = null;
 
@@ -58,7 +59,7 @@ class IPv4AddressValidatorTest {
         }
 
         @Override
-        public void setLine(final String[] data) {
+        public void setRecord(final CSVRecord record) {
             // pass
         }
 
@@ -68,8 +69,7 @@ class IPv4AddressValidatorTest {
         }
 
         @Override
-        public String[] getLine() {
-            // TODO 自動生成されたメソッド・スタブ
+        public String[] getRecord() {
             return null;
         }
     }

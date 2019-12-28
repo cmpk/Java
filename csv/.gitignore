@@ -12,3 +12,4 @@ dradlew
 .settings
 bin
 
+# Ignore files for test

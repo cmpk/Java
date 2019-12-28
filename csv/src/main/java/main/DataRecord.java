@@ -5,8 +5,10 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.csv.CSVRecord;
+
 import csv.CSVUtility;
-import csv.ICSVLine;
+import csv.ICSVRecord;
 import lombok.Getter;
 import validation.ColumnSize;
 import validation.DateWithYearMonthDate;
@@ -14,10 +16,10 @@ import validation.IPv4Address;
 import validation.seq.FirstCheck;
 import validation.seq.SecondCheck;
 
-public class DataLine implements ICSVLine {
+public class DataRecord implements ICSVRecord {
     private static final long serialVersionUID = 1L;
 
-    @ColumnSize(size = DataLines.COLUMN_SIZE, groups = FirstCheck.class)
+    @ColumnSize(size = DataRecords.COLUMN_SIZE, groups = FirstCheck.class)
     private int columnSize = 0;
 
     @Getter
@@ -49,15 +51,15 @@ public class DataLine implements ICSVLine {
     }
 
     @Override
-    public void setLine(String[] values) {
-        this.columnSize = values.length;
+    public final void setRecord(final CSVRecord record) {
+        this.columnSize = record.size();
         try {
             // CHECKSTYLE:OFF  // マジックナンバーに対する checkstyle 抑制
-            this.date = values[0];
-            this.title = values[1];
-            this.count = values[2];
-            this.ipAddress = values[3];
-            this.notes = values[4];
+            this.date = record.get(0);
+            this.title = record.get(1);
+            this.count = record.get(2);
+            this.ipAddress = record.get(3);
+            this.notes = record.get(4);
             // CHECKSTYLE:ON
         } catch (ArrayIndexOutOfBoundsException e) {
             // pass （受け取った行のカラム数が足りない場合に発生）
@@ -65,7 +67,7 @@ public class DataLine implements ICSVLine {
     }
 
     @Override
-    public String[] getLine() {
+    public final String[] getRecord() {
         return new String[] {CSVUtility.toString(this.date), CSVUtility.toString(this.title), CSVUtility.toString(this.count), CSVUtility.toString(this.ipAddress), CSVUtility.toString(this.notes)};
     }
 }

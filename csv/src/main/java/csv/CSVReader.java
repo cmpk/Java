@@ -5,104 +5,105 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
+
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVRecord;
 
 public class CSVReader {
-    public static final String DEFAULT_SEPARATOR = ",";
+    public static final char DEFAULT_DELIMITER = ',';
+    public static final String DEFAULT_RECORD_SEPARATOR = "\r\n";
     public static final boolean DEFAULT_INCLUDE_HEADER = true;
 
     /**
-     * {@see CSVReader#read(String, String, String, boolean)}.
+     * @see CSVReader#read(String, String, String, boolean)
      *
-     * @param classpath
+     * @param clazz
      * @param filepath
-     * @param separator
+     * @param delimiter
      * @return
-     * @throws FileNotFoundException
-     * @throws InstantiationException
-     * @throws IllegalAccessException
-     * @throws IOException
      * @throws ClassNotFoundException
+     * @throws FileNotFoundException
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     * @throws IOException
      */
-    public ICSVLines read(final Class<ICSVLines> clazz, final String filepath, final String separator) throws FileNotFoundException, InstantiationException, IllegalAccessException, IOException, ClassNotFoundException {
-        return read(clazz, filepath, separator, DEFAULT_INCLUDE_HEADER);
+    public ICSVRecords read(final Class<ICSVRecords> clazz, final String filepath, final char delimiter) throws FileNotFoundException, InstantiationException, IllegalAccessException, IOException, ClassNotFoundException {
+        return read(clazz, filepath, delimiter, DEFAULT_INCLUDE_HEADER);
     }
 
     /**
-     * {@see CSVReader#read(String, String, String, boolean)}.
+     * @see CSVReader#read(String, String, String, boolean)
      *
-     * @param classpath
+     * @param clazz
      * @param filepath
      * @param includeHeader
      * @return
-     * @throws FileNotFoundException
-     * @throws InstantiationException
-     * @throws IllegalAccessException
-     * @throws IOException
      * @throws ClassNotFoundException
+     * @throws FileNotFoundException
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     * @throws IOException
      */
-    public ICSVLines read(final Class<ICSVLines> clazz, final String filepath, final boolean includeHeader) throws FileNotFoundException, InstantiationException, IllegalAccessException, IOException, ClassNotFoundException {
-        return read(clazz, filepath, DEFAULT_SEPARATOR, includeHeader);
+    public ICSVRecords read(final Class<ICSVRecords> clazz, final String filepath, final boolean includeHeader) throws FileNotFoundException, InstantiationException, IllegalAccessException, IOException, ClassNotFoundException {
+        return read(clazz, filepath, DEFAULT_DELIMITER, includeHeader);
     }
 
     /**
-     * {@see CSVReader#read(String, String, String, boolean)}.
+     * @see CSVReader#read(String, String, String, boolean)
      *
-     * @param classpath
+     * @param clazz
      * @param filepath
      * @return
-     * @throws FileNotFoundException
-     * @throws InstantiationException
-     * @throws IllegalAccessException
-     * @throws IOException
      * @throws ClassNotFoundException
+     * @throws FileNotFoundException
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     * @throws IOException
      */
-    public ICSVLines read(final Class<ICSVLines> clazz, final String filepath) throws FileNotFoundException, InstantiationException, IllegalAccessException, IOException, ClassNotFoundException {
-        return read(clazz, filepath, DEFAULT_SEPARATOR, DEFAULT_INCLUDE_HEADER);
+    public ICSVRecords read(final Class<ICSVRecords> clazz, final String filepath) throws FileNotFoundException, InstantiationException, IllegalAccessException, IOException, ClassNotFoundException {
+        return read(clazz, filepath, DEFAULT_DELIMITER, DEFAULT_INCLUDE_HEADER);
     }
 
     /**
-     * CSVを読み込み内容をインスタンス化する.
+     * CSVを読み込み、その内容を指定したインスタンスとして取得する.
      *
-     * @param classpath     CSVの内容1行分を表すクラスのFQDN. {@see CSVEntity}でなければならない.
+     * @param clazz     CSVの内容1行分を表すクラスのFQDN.
      * @param filepath      CSVファイルのパス.
-     * @param separator     CSVの区切り文字.
+     * @param delimiter     CSVの区切り文字.
      * @param includeHeader CSVにヘッダーが含まれるか.
      * @return
+     * @throws ClassNotFoundException clazz が見つからない場合に発生.
      * @throws FileNotFoundException  CSVファイルが見つからない場合に発生.
-     *                                詳細は{@see FileNotFoundException}を参照のこと.
+     * @throws IllegalAccessException clazz のインスタンス作成時のエラー.
+     * @throws InstantiationException clazz のインスタンス作成時のエラー.
      * @throws IOException            CSVファイルのインスタンス作成、および、CSV読込み中のエラー.
-     *                                詳細は{@see IOException}を参照のこと.
-     * @throws InstantiationException classpath のインスタンス作成時のエラー.
-     *                                詳細は{@see InstantiationException}を参照のこと.
-     * @throws IllegalAccessException classpath のインスタンス作成時のエラー.
-     *                                詳細は{@see IllegalAccessException}を参照のこと.
-     * @throws ClassNotFoundException classpath が見つからない場合に発生.
-     *                                詳細は{@see ClassNotFoundException}を参照のこと.
      */
-    public ICSVLines read(final Class<ICSVLines> clazz, final String filepath, final String separator, final boolean includeHeader) throws FileNotFoundException, IOException, InstantiationException, IllegalAccessException, ClassNotFoundException {
-        ICSVLines lines = getCSVLines(clazz);
+    public ICSVRecords read(final Class<ICSVRecords> clazz, final String filepath, final char delimiter, final boolean includeHeader) throws InstantiationException, IllegalAccessException, ClassNotFoundException, FileNotFoundException, IOException {
+        CSVFormat format = CSVFormat
+                .DEFAULT
+                .withIgnoreEmptyLines(true)                         // 空行を無視する
+                .withDelimiter(delimiter)
+                .withRecordSeparator(DEFAULT_RECORD_SEPARATOR)
+                .withIgnoreSurroundingSpaces(true);                 // 値を trim して取得する
+        if (includeHeader) {
+            format = format.withFirstRecordAsHeader(); // 最初の行をヘッダーとして読み飛ばす
+        }
 
         File file = new File(filepath);
+        List<CSVRecord> list = null;
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            if (includeHeader) {
-                br.readLine(); // skip header
-            }
-
-            String line = null;
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(separator, 0);
-
-
-                lines.addLine(values);
-            }
+            list = format.parse(br).getRecords();
         }
-        System.out.println(this.getClass().getName() + " : csv has " + lines.size() + " lines as data.");
 
-        return lines;
+        ICSVRecords records = getCSVLines(clazz);
+        records.addRecords(list);
+
+        return records;
     }
 
-    private ICSVLines getCSVLines(final Class<ICSVLines> clazz) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-        ICSVLines entity = (ICSVLines) clazz.newInstance();
+    private ICSVRecords getCSVLines(final Class<ICSVRecords> clazz) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+        ICSVRecords entity = (ICSVRecords) clazz.newInstance();
         return entity;
     }
 }

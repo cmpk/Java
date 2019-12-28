@@ -7,13 +7,14 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
+import org.apache.commons.csv.CSVRecord;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import csv.ICSVLine;
+import csv.ICSVRecord;
 
 class ColumnSizeValidatorTest {
     private Validator validator = null;
@@ -27,16 +28,16 @@ class ColumnSizeValidatorTest {
     @DisplayName("値がNullの場合にエラーとなること")
     public final void testNegativeWhenNull() {
         TestBean bean = new TestBean(null);
-        Set<ConstraintViolation<ICSVLine>> violations = this.validator.validate(bean);
+        Set<ConstraintViolation<ICSVRecord>> violations = this.validator.validate(bean);
         assertFalse(violations.isEmpty());
     }
 
     @ParameterizedTest
     @ValueSource(ints = {0, 2})
     @DisplayName("値が1でない場合にエラーとなること")
-    public final void testNegativeWhenInvalidNumber(int value) {
+    public final void testNegativeWhenInvalidNumber(final int value) {
         TestBean bean = new TestBean(value);
-        Set<ConstraintViolation<ICSVLine>> violations = this.validator.validate(bean);
+        Set<ConstraintViolation<ICSVRecord>> violations = this.validator.validate(bean);
         assertFalse(violations.isEmpty());
     }
 
@@ -44,11 +45,11 @@ class ColumnSizeValidatorTest {
     @DisplayName("値が1の場合にエラーにならないこと")
     public final void testPositive() {
         TestBean bean = new TestBean(1);
-        Set<ConstraintViolation<ICSVLine>> violations = this.validator.validate(bean);
+        Set<ConstraintViolation<ICSVRecord>> violations = this.validator.validate(bean);
         assertTrue(violations.isEmpty());
     }
 
-    private static class TestBean implements ICSVLine {
+    private static class TestBean implements ICSVRecord {
         @ColumnSize(size = 1)
         private Integer columnSize = null;
 
@@ -57,7 +58,7 @@ class ColumnSizeValidatorTest {
         }
 
         @Override
-        public void setLine(final String[] data) {
+        public void setRecord(final CSVRecord record) {
             // pass
         }
 
@@ -67,8 +68,7 @@ class ColumnSizeValidatorTest {
         }
 
         @Override
-        public String[] getLine() {
-            // TODO 自動生成されたメソッド・スタブ
+        public String[] getRecord() {
             return null;
         }
     }
