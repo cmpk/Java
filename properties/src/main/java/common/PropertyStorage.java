@@ -1,4 +1,4 @@
-package main;
+package common;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,8 +16,8 @@ public class PropertyStorage {
      * プロパティファイルを読み込み、プロパティを保持するインスタンスを作成する.
      * @param filepath プロパティファイルのパス
      * @param charsetName プロパティファイルの文字コード
-     * @throws FileNotFoundException {@see FileInputStream#FileInputStream(String)}
-     * @throws IOException {@see FileInputStream#FileInputStream(String)} {@see Properties#load(java.io.InputStream)}
+     * @throws FileNotFoundException @see FileInputStream#FileInputStream(String)
+     * @throws IOException @see FileInputStream#FileInputStream(String), @see Properties#load(java.io.InputStream)
      */
     public PropertyStorage(final String filepath, final String charsetName) throws FileNotFoundException, IOException {
         this.properties = new Properties();

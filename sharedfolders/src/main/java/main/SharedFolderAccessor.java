@@ -28,7 +28,7 @@ public class SharedFolderAccessor {
     public String searchDriveLetter(List<String> outputs) {
         outputs = (outputs == null) ? new ArrayList<String>() : outputs;
         char c = 'Z';
-        for (int i = 0; i < 26; i++) {
+        for (int i = 0; i < 26; i++) { //SUPPRESS CHECKSTYLE ignore magic number
             String[] commandList = {"cmd", "/c", "if not exist " + c + ":\\ echo " + c};
             List<String> out = new ArrayList<String>();
             try {
