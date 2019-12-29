@@ -1,7 +1,9 @@
 package csv;
 
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
@@ -16,10 +18,11 @@ public class CSVWriter {
      *
      * @param csvLines
      * @param filepath
+     * @param charset
      * @throws IOException
      */
-    public void write(final ICSVRecords csvLines, final String filepath) throws IOException {
-        write(csvLines, filepath, DEFAULT_DELIMITER, DEFAULT_INCLUDE_HEADER);
+    public void write(final ICSVRecords csvLines, final String filepath, final Charset charset) throws IOException {
+        write(csvLines, filepath, charset, DEFAULT_DELIMITER, DEFAULT_INCLUDE_HEADER);
     }
 
     /**
@@ -27,11 +30,12 @@ public class CSVWriter {
      *
      * @param csvRecords    CSVの内容を保持するインスタンス.
      * @param filepath      出力先のCSVファイルパス.
+     * @param charset       出力に利用する文字コード
      * @param delimiter     CSVの区切り文字.
      * @param includeHeader CSVにヘッダーを出力するか.
      * @throws IOException CSVの書き込みに失敗した場合
      */
-    public void write(final ICSVRecords csvRecords, final String filepath, final char delimiter, final boolean includeHeader) throws IOException {
+    public void write(final ICSVRecords csvRecords, final String filepath, final Charset charset, final char delimiter, final boolean includeHeader) throws IOException {
         CSVFormat format = CSVFormat
                 .DEFAULT
                 .withIgnoreEmptyLines(true) // 空行を無視する
@@ -39,7 +43,7 @@ public class CSVWriter {
                 .withRecordSeparator(DEFAULT_RECORD_SEPARATOR)
                 .withIgnoreSurroundingSpaces(true); // 値を trim して取得する
 
-        try (FileWriter fw = new FileWriter(filepath, false)) {
+        try (OutputStreamWriter fw = new OutputStreamWriter(new FileOutputStream(filepath, false), charset)) {
             try (CSVPrinter printer = new CSVPrinter(fw, format)) {
                 if (includeHeader) {
                     printer.printRecord((Object[]) csvRecords.getHeader());

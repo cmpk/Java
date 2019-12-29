@@ -1,13 +1,13 @@
 package csv;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
 public class CSVReader {
@@ -20,6 +20,24 @@ public class CSVReader {
      *
      * @param clazz
      * @param filepath
+     * @param charset
+     * @return
+     * @throws ClassNotFoundException
+     * @throws FileNotFoundException
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     * @throws IOException
+     */
+    public ICSVRecords read(final Class<ICSVRecords> clazz, final String filepath, final Charset charset) throws FileNotFoundException, InstantiationException, IllegalAccessException, IOException, ClassNotFoundException {
+        return read(clazz, filepath, charset, DEFAULT_DELIMITER, DEFAULT_INCLUDE_HEADER);
+    }
+
+    /**
+     * @see CSVReader#read(String, String, String, boolean)
+     *
+     * @param clazz
+     * @param filepath
+     * @param charset
      * @param delimiter
      * @return
      * @throws ClassNotFoundException
@@ -28,8 +46,8 @@ public class CSVReader {
      * @throws InstantiationException
      * @throws IOException
      */
-    public ICSVRecords read(final Class<ICSVRecords> clazz, final String filepath, final char delimiter) throws FileNotFoundException, InstantiationException, IllegalAccessException, IOException, ClassNotFoundException {
-        return read(clazz, filepath, delimiter, DEFAULT_INCLUDE_HEADER);
+    public ICSVRecords read(final Class<ICSVRecords> clazz, final String filepath, final Charset charset, final char delimiter) throws FileNotFoundException, InstantiationException, IllegalAccessException, IOException, ClassNotFoundException {
+        return read(clazz, filepath, charset, delimiter, DEFAULT_INCLUDE_HEADER);
     }
 
     /**
@@ -37,6 +55,7 @@ public class CSVReader {
      *
      * @param clazz
      * @param filepath
+     * @param charset
      * @param includeHeader
      * @return
      * @throws ClassNotFoundException
@@ -45,31 +64,16 @@ public class CSVReader {
      * @throws InstantiationException
      * @throws IOException
      */
-    public ICSVRecords read(final Class<ICSVRecords> clazz, final String filepath, final boolean includeHeader) throws FileNotFoundException, InstantiationException, IllegalAccessException, IOException, ClassNotFoundException {
-        return read(clazz, filepath, DEFAULT_DELIMITER, includeHeader);
-    }
-
-    /**
-     * @see CSVReader#read(String, String, String, boolean)
-     *
-     * @param clazz
-     * @param filepath
-     * @return
-     * @throws ClassNotFoundException
-     * @throws FileNotFoundException
-     * @throws IllegalAccessException
-     * @throws InstantiationException
-     * @throws IOException
-     */
-    public ICSVRecords read(final Class<ICSVRecords> clazz, final String filepath) throws FileNotFoundException, InstantiationException, IllegalAccessException, IOException, ClassNotFoundException {
-        return read(clazz, filepath, DEFAULT_DELIMITER, DEFAULT_INCLUDE_HEADER);
+    public ICSVRecords read(final Class<ICSVRecords> clazz, final String filepath, final Charset charset, final boolean includeHeader) throws FileNotFoundException, InstantiationException, IllegalAccessException, IOException, ClassNotFoundException {
+        return read(clazz, filepath, charset, DEFAULT_DELIMITER, includeHeader);
     }
 
     /**
      * CSVを読み込み、その内容を指定したインスタンスとして取得する.
      *
-     * @param clazz     CSVの内容1行分を表すクラスのFQDN.
+     * @param clazz         CSVの内容1行分を表すクラスのFQDN.
      * @param filepath      CSVファイルのパス.
+     * @param charset       CSVファイルの文字コード
      * @param delimiter     CSVの区切り文字.
      * @param includeHeader CSVにヘッダーが含まれるか.
      * @return
@@ -79,7 +83,7 @@ public class CSVReader {
      * @throws InstantiationException clazz のインスタンス作成時のエラー.
      * @throws IOException            CSVファイルのインスタンス作成、および、CSV読込み中のエラー.
      */
-    public ICSVRecords read(final Class<ICSVRecords> clazz, final String filepath, final char delimiter, final boolean includeHeader) throws InstantiationException, IllegalAccessException, ClassNotFoundException, FileNotFoundException, IOException {
+    public ICSVRecords read(final Class<ICSVRecords> clazz, final String filepath, final Charset charset, final char delimiter, final boolean includeHeader) throws InstantiationException, IllegalAccessException, ClassNotFoundException, FileNotFoundException, IOException {
         CSVFormat format = CSVFormat
                 .DEFAULT
                 .withIgnoreEmptyLines(true)                         // 空行を無視する
@@ -92,8 +96,8 @@ public class CSVReader {
 
         File file = new File(filepath);
         List<CSVRecord> list = null;
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            list = format.parse(br).getRecords();
+        try (CSVParser parser = CSVParser.parse(file, charset, format)) {
+            list = parser.getRecords();
         }
 
         ICSVRecords records = getCSVLines(clazz);

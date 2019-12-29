@@ -3,8 +3,13 @@ package csv;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -35,7 +40,7 @@ public class CSVWriterTest {
 
         CSVWriter writer = new CSVWriter();
         try {
-            writer.write(records, OUTPUT_CSV_FILE_PATH, ',', true);
+            writer.write(records, OUTPUT_CSV_FILE_PATH, StandardCharsets.UTF_8, ',', true);
         } catch (IOException e) {
             fail(e);
         }
@@ -46,7 +51,7 @@ public class CSVWriterTest {
                 cnt++;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            fail(e);
         }
 
         assertEquals(4, cnt);
@@ -59,7 +64,7 @@ public class CSVWriterTest {
 
         CSVWriter writer = new CSVWriter();
         try {
-            writer.write(records, OUTPUT_CSV_FILE_PATH, ',', false);
+            writer.write(records, OUTPUT_CSV_FILE_PATH, StandardCharsets.UTF_8, ',', false);
         } catch (IOException e) {
             fail(e);
         }
@@ -70,10 +75,39 @@ public class CSVWriterTest {
                 cnt++;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            fail(e);
         }
 
         assertEquals(3, cnt);
+    }
+
+    @Test
+    @DisplayName("文字コード(SJIS)")
+    public final void testInSJIS() {
+        TestRecords records = createTestRecords();
+
+        CSVWriter writer = new CSVWriter();
+        try {
+            writer.write(records, OUTPUT_CSV_FILE_PATH, Charset.forName("SJIS"), ',', true);
+        } catch (IOException e) {
+            fail(e);
+        }
+
+        String line = null;
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(OUTPUT_CSV_FILE_PATH), Charset.forName("SJIS")))) {
+            line = br.readLine();
+        } catch (IOException e) {
+            fail(e);
+        }
+
+        try {
+            String expected = String.join(",", records.getHeader()).getBytes("SJIS").toString();
+            String actual = line.getBytes("SJIS").toString();
+            assertEquals(expected, actual);
+        } catch (UnsupportedEncodingException e) {
+            fail(e);
+        }
+
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -81,7 +115,7 @@ public class CSVWriterTest {
         CSVReader reader = new CSVReader();
         ICSVRecords csvRecords = null;
         try {
-            csvRecords = reader.read((Class) TestRecords.class, "./src/test/resources/with_header.csv", true);
+            csvRecords = reader.read((Class) TestRecords.class, "./src/test/resources/with_header.csv", StandardCharsets.UTF_8, true);
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | IOException e) {
             fail(e);
         }
@@ -95,7 +129,7 @@ public class CSVWriterTest {
 
         @Override
         public final String[] getHeader() {
-            return new String[] {"h1", "h2", "h3"};
+            return new String[] {"ヘッダ１", "ヘッダ２", "ヘッダ３"};
         }
 
         @Override

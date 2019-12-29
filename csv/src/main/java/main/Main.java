@@ -2,6 +2,8 @@ package main;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -40,6 +42,7 @@ public final class Main {
             Set<ConstraintViolation<ICSVRecord>> violations = validator.validate(record, CheckSequence.class);
             int errorCount = violations.size();
             System.out.println("----------");
+            System.out.println("record : " + String.join(", ", record.getRecord()));
             System.out.println("validate error count : " + errorCount);
             if (errorCount > 0) {
                 printErrors(violations);
@@ -48,7 +51,7 @@ public final class Main {
 
         // CSVを書き込む
         try {
-            new CSVWriter().write(csvRecords, "work/out.csv");
+            new CSVWriter().write(csvRecords, "work/out.csv", Charset.forName("SJIS"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -77,6 +80,6 @@ public final class Main {
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private static ICSVRecords read() throws FileNotFoundException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException {
-        return new CSVReader().read((Class) DataRecords.class, "files/data.csv");
+        return new CSVReader().read((Class) DataRecords.class, "files/data.csv", StandardCharsets.UTF_8);
     }
 }

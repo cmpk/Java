@@ -3,6 +3,8 @@ package csv;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -19,7 +21,7 @@ public class CSVReaderTest {
         CSVReader reader = new CSVReader();
         ICSVRecords csvRecords = null;
         try {
-            csvRecords = reader.read((Class) TestRecords.class, "./src/test/resources/delimiter_is_tab.tsv", '\t', false);
+            csvRecords = reader.read((Class) TestRecords.class, "./src/test/resources/delimiter_is_tab.tsv", StandardCharsets.UTF_8, '\t', false);
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | IOException e) {
             fail(e);
         }
@@ -34,12 +36,30 @@ public class CSVReaderTest {
         CSVReader reader = new CSVReader();
         ICSVRecords csvRecords = null;
         try {
-            csvRecords = reader.read((Class) TestRecords.class, "./src/test/resources/with_header.csv", true);
+            csvRecords = reader.read((Class) TestRecords.class, "./src/test/resources/with_header.csv", StandardCharsets.UTF_8, true);
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | IOException e) {
             fail(e);
         }
 
         assertEquals(3, csvRecords.size());
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @Test
+    @DisplayName("文字コード(SJIS)の読込")
+    public final void testInSJIS() {
+        CSVReader reader = new CSVReader();
+        ICSVRecords csvRecords = null;
+        try {
+            csvRecords = reader.read((Class) TestRecords.class, "./src/test/resources/SJIS.csv", Charset.forName("SJIS"), true);
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | IOException e) {
+            fail(e);
+        }
+
+        assertEquals(1, csvRecords.size());
+        for (ICSVRecord record : csvRecords) {
+            assertEquals("拾壱,壱拾弐,壱拾参", String.join(",", record.getRecord()));
+        }
     }
 
     public static class TestRecords implements ICSVRecords {

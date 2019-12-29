@@ -11,6 +11,7 @@
   * どのようなCSVフォーマットにも対応可能とする  
 * CSVの任意の行のカラム数が不正な場合にカラムごとのバリデーションを実行しない
   * お世話になったサイト
+    * [Bean Validationで簡単入力チェック！](https://qiita.com/5zm/items/89b7198cab74f2d0f4a1)
     * [Bean ValidationのGroup sequenceは単項目チェック、相関チェックの順序指定で使うのは止めた方が良さそう](https://qiita.com/eiryu/items/95a206d617bd2b956953)
 
 ## メッセージファイルについて
@@ -20,6 +21,5 @@
 
 ## 課題
 
-* 文字コードを指定して読込み、書込みを行う  
 * UT を充実させる  
 
