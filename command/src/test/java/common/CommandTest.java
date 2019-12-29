@@ -2,7 +2,6 @@ package common;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -24,7 +23,7 @@ public class CommandTest {
         int actualExitCode = -1;
         try {
             actualExitCode = Command.run(execDirPath, command, stdoutCharset, outputs, timeout, timeUnit);
-        } catch (InterruptedException | IOException e) {
+        } catch (CommandException e) {
             fail(e);
         }
         assertEquals(0, actualExitCode);
@@ -46,7 +45,7 @@ public class CommandTest {
         int actualExitCode = -1;
         try {
             actualExitCode = Command.run(execDirPath, command, stdoutCharset, outputs, timeout, timeUnit);
-        } catch (InterruptedException | IOException e) {
+        } catch (CommandException e) {
             fail(e);
         }
         assertTrue(0 != actualExitCode && -1 != actualExitCode);
@@ -67,7 +66,7 @@ public class CommandTest {
         int actualExitCode = -1;
         try {
             actualExitCode = Command.run(execDirPath, command, stdoutCharset, outputs, timeout, timeUnit);
-        } catch (InterruptedException | IOException e) {
+        } catch (CommandException e) {
             fail(e);
         }
         assertEquals(Command.EXIT_CODE_TIMEOUT, actualExitCode);

@@ -29,7 +29,7 @@ public final class Command {
      * @throws InterruptedException
      * @throws IOException
      */
-    public static int run(final String execDirPath, final String[] command, final String stdoutCharset, final List<String> outputs) throws InterruptedException, IOException {
+    public static int run(final String execDirPath, final String[] command, final String stdoutCharset, final List<String> outputs) throws CommandException {
         return Command.run(execDirPath, command, stdoutCharset, outputs, 0, null);
     }
 
@@ -44,10 +44,9 @@ public final class Command {
      * @param timeout       タイムアウト. 0を指定した場合は、コマンドが終了するまで待機する.
      * @param timeUnit      タイムアウトの単位
      * @return 終了コード. タイムアウトの場合は {@link Command#EXIT_CODE_TIMEOUT} を返すが、このコードが必ずタイムアウトを示すわけではない.
-     * @throws IOException          @see ProcessBuilder#start(), @see InputStream#read()
-     * @throws InterruptedException @see Process#waitFor(long, TimeUnit)
+     * @throws CommandException コマンド実行準備、標準入出力の読み取り、コマンド実行に失敗した場合
      */
-    public static int run(final String execDirPath, final String[] command, final String stdoutCharset, final List<String> outputs, final long timeout, final TimeUnit timeUnit) throws InterruptedException, IOException {
+    public static int run(final String execDirPath, final String[] command, final String stdoutCharset, final List<String> outputs, final long timeout, final TimeUnit timeUnit) throws CommandException {
         System.out.println(String.join(" ", command)); //TODO 削除
 
         String[] cmd = ArrayUtils.addAll(new String[] {"cmd", "/c"}, command);
@@ -60,7 +59,7 @@ public final class Command {
             proc = builder.start();
         } catch (IOException e) {
             close(proc);
-            throw e;
+            throw new CommandException("プロセスの起動に失敗しました。コマンドが見つからない、コマンドファイルや作業ディレクトリの状態を確認してください。", e);
         }
 
         // read stdout
@@ -93,7 +92,7 @@ public final class Command {
             }
         } catch (InterruptedException e) {
             close(proc);
-            throw e;
+            throw new CommandException("コマンド実行完了の待機中にエラーが発生しました。割込みが発生した可能性があります。", e);
         }
 
         return exitCode;

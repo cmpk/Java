@@ -1,10 +1,10 @@
 package main;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import common.Command;
+import common.CommandException;
 
 /**
  * Windows 共有フォルダにアクセスするための操作を提供する.
@@ -59,10 +59,9 @@ public class SharedFolderAccessor {
      * @param password パスワード
      * @param outputs 標準出力に出力された内容を格納するインスタンス.
      * @return 成功した場合は true
-     * @throws IOException {@see Command#run(String, String[], String, List)}
-     * @throws InterruptedException  {@see Command#run(String, String[], String, List)}
+     * @throws CommandException
      */
-    public boolean assignNetworkDrive(final String driveLetter, final String sharedDirPath, final String userId, final String password, List<String> outputs) throws InterruptedException, IOException {
+    public boolean assignNetworkDrive(final String driveLetter, final String sharedDirPath, final String userId, final String password, List<String> outputs) throws CommandException {
         String[] commandList = {"net use", driveLetter + ":", sharedDirPath, password, "/USER:" + userId};
         outputs = (outputs == null) ? new ArrayList<String>() : outputs;
         int exitCode = Command.run("./", commandList, this.stdoutCharset, outputs);
@@ -79,10 +78,9 @@ public class SharedFolderAccessor {
      * @param driveLetter 切断対象のドライブ文字列
      * @param outputs 標準出力に出力された内容を格納するインスタンス.
      * @return 成功した場合は true
-     * @throws IOException {@see Command#run(String, String[], String, List)}
-     * @throws InterruptedException {@see Command#run(String, String[], String, List)}
+     * @throws CommandException
      */
-    public boolean deleteNetworkDrive(final String driveLetter, List<String> outputs) throws InterruptedException, IOException {
+    public boolean deleteNetworkDrive(final String driveLetter, List<String> outputs) throws CommandException {
         String[] commandList = {"net use", driveLetter + ":", "/delete"};
         outputs = (outputs == null) ? new ArrayList<String>() : outputs;
         int exitCode = Command.run("./", commandList, this.stdoutCharset, outputs);
