@@ -2,11 +2,15 @@
 .gradle
 build
 gradle
-fradlew.bat
-dradlew
+gradlew.bat
+gradlew
 
 # Ignore Eclipse files
 .classpath
 .project
 .settings
 bin
+
+# Ignore specific files
+libs/ojdbc8.jar
+work/*
