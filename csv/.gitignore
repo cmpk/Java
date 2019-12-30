@@ -2,8 +2,8 @@
 .gradle
 build
 gradle
-fradlew.bat
-dradlew
+gradlew.bat
+gradlew
 
 # Ignore Eclipse files
 .checkstyle
