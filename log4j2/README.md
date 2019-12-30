@@ -11,4 +11,7 @@ Apache log4j 2 の使用方法を調査する。
 # 課題
 
 * UT を書く
+* 実行時間の測定はAOPで書きたいなぁ
+  * log4j の設定が面倒なので、Spring Boot は使いたくない
+  * aspectJ は Gradle 5 ではバグのためにコンパイルできないっぽい
 

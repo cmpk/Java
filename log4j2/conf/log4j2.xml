@@ -12,12 +12,12 @@
     </Properties>
 
     <Appenders>
-        <File name="sample_log" fileName="sample_log4j2_${date:yyyyMMdd}.log">
+        <File name="sample_log" fileName="logs/sample_log4j2_${date:yyyyMMdd}.log">
             <PatternLayout pattern="${base_format}" charset="SJIS" />
         </File>
 
         <!-- 特定のログレベルだけ別のファイルにも出力したい場合 -->
-        <File name="sample_log_error" fileName="sample_error.log">
+        <File name="sample_log_error" fileName="logs/sample_error.log">
             <PatternLayout pattern="${base_format}" charset="SJIS" />
         </File>
 

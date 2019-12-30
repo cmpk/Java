@@ -7,8 +7,4 @@
  * in the user manual at https://docs.gradle.org/5.6.1/userguide/multi_project_builds.html
  */
 
-rootProject.name = 'main'
-
-// 依存プロジェクトを指定する
-include ':common'
-project(':common').projectDir = new File("../common")
+rootProject.name = 'log4j2'
