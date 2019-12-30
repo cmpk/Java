@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -93,17 +94,17 @@ public class CSVWriterTest {
             fail(e);
         }
 
-        String line = null;
+        String actualLine = null;
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(OUTPUT_CSV_FILE_PATH), Charset.forName("SJIS")))) {
-            line = br.readLine();
+            actualLine = br.readLine();
         } catch (IOException e) {
             fail(e);
         }
 
         try {
-            String expected = String.join(",", records.getHeader()).getBytes("SJIS").toString();
-            String actual = line.getBytes("SJIS").toString();
-            assertEquals(expected, actual);
+            byte[] expected = String.join(",", records.getHeader()).getBytes("SJIS");
+            byte[] actual = actualLine.getBytes("SJIS");
+            assertTrue(Arrays.equals(expected, actual));
         } catch (UnsupportedEncodingException e) {
             fail(e);
         }
