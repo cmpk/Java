@@ -13,9 +13,9 @@
 | ディレクトリ | 内容                                         | 依存プロジェクト              | 主要依存ライブラリ, 参考サイト | 備考  |
 | ------------ | -------------------------------------------- | ----------------------------- | ------------------------------ | ----- |
 | command      | 外部コマンド実行                             | -                             | [Apache Commons Lang](https://commons.apache.org/proper/commons-lang/) | 単独では実行不可。他プロジェクトから利用することを前提としている。|
-| csv          | CSVの読込と書込み <br> 各値のバリデーション  | -                             | [Apache Commons CSV](https://commons.apache.org/proper/commons-csv/) <br> [Bean Validation](https://beanvalidation.org/) ||
+| csv          | CSVの読込と書込み <br> 各値のバリデーション  | -                             | <ul><li>[Apache Commons CSV](https://commons.apache.org/proper/commons-csv/)</li><li>[Bean Validation](https://beanvalidation.org/)</li></ul> ||
 | db           | DB（Oracle）操作                             | command <br> properties       | -                              ||
-| javamail     | メール内容作成にテンプレート（freemarker）を使用してメール送信 | properties  | [Java Mail](https://javaee.github.io/javamail/) <br> [Apache FreeMaker](https://freemarker.apache.org/)||
+| javamail     | メール内容作成にテンプレート（freemarker）を使用してメール送信 | properties  | <ul><li>[Java Mail](https://javaee.github.io/javamail/)</li><li>[Apache FreeMaker](https://freemarker.apache.org/)</li></ul>||
 | log4j2       | ロギングの仕方                               | -                             | -                              ||
 
 ## checkstyle について
