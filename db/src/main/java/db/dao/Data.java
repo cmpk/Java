@@ -6,6 +6,9 @@ import java.util.Date;
 
 import lombok.Getter;
 
+/**
+ * DBテーブル"DATA"を表現するクラス.
+ */
 public final class Data {
     public static final int COLUMN_NUMBER_VALUE = 1;
     public static final int COLUMN_STRING_VALUE = 2;

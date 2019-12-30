@@ -16,6 +16,7 @@ import db.IDataSource;
 import db.dao.Data;
 import db.dao.DataDao;
 import db.oracle.Oracle;
+import db.oracle.SQLLoaderException;
 
 public final class Main {
 
@@ -42,7 +43,7 @@ public final class Main {
             if (!loadData(con, dataDao)) {
                 return;
             }
-            if (!storeData(prop.getPropertyString("userid"), prop.getPropertyString("password"), dataDao)) {
+            if (!storeData(prop.getPropertyString("userid"), prop.getPropertyString("password"), (Oracle) dataSource)) {
                 return;
             }
             if (!loadData(con, dataDao)) {
@@ -102,13 +103,13 @@ public final class Main {
         return true;
     }
 
-    private static boolean storeData(final String userId, final String password, final DataDao dataDao) {
+    private static boolean storeData(final String userId, final String password, final Oracle oracle) {
         String logFilename = "";
         try {
-            logFilename = dataDao.loadCSV2DB(userId, password, "work", "conf/DATA.ctl", "data/DATA.csv", true);
+            logFilename = oracle.loadCSV2DB(userId, password, "work", "conf/DATA.ctl", "data/DATA.csv", true);
 
             System.out.println("登録しました。");
-        } catch (CommandException e) {
+        } catch (CommandException | SQLLoaderException e) {
             e.printStackTrace();
             return false;
         }
