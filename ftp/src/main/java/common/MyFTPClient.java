@@ -76,15 +76,16 @@ public class MyFTPClient implements AutoCloseable {
      *
      * @param sourceFilePath FTPサーバ上のコピー元ファイル
      * @param destFilepath ローカルマシン上のコピー先ファイル
+     * @return {@link FTPClient#retrieveFile(String, java.io.OutputStream)}
      * @throws MyFTPClientException
      */
-    public void get(String sourceFilePath, String destFilepath) throws MyFTPClientException {
+    public boolean get(String sourceFilePath, String destFilepath) throws MyFTPClientException {
         if (this.client == null) {
             throw new MyFTPClientException("FTPサーバに接続されていません。FTPサーバに接続後、GET処理を実行してください。");
         }
 
         try (FileOutputStream fos = new FileOutputStream(destFilepath)) {
-            this.client.retrieveFile(sourceFilePath, fos);
+            return this.client.retrieveFile(sourceFilePath, fos);
         } catch (FileNotFoundException e) {
             throw new MyFTPClientException("ローカルマシン上のコピー先ファイル生成に失敗しました。コピー先の状態を確認してください。", e);
         } catch (IOException e) {
