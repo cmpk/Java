@@ -1,6 +1,7 @@
-準備中  
+# FTP GET 方法調査  
 
-# 利用ライブラリ  
+## 目的
+FTP の GET を実現するための実装方法を調査する  
 
-[Apache Commons Net](https://commons.apache.org/proper/commons-net/)
-
+## 課題
+UT を充実させる  

@@ -10,3 +10,6 @@ dradlew
 .project
 .settings
 bin
+
+# Ignore working files
+work/*
