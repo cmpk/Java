@@ -63,7 +63,7 @@ public final class Command {
         }
 
         // read stdout
-        final Process p = proc; // TODO final付の変数を使わないとThread()内で怒られる
+        final Process p = proc; // final付の変数を使わないとThread()内で怒られる
         new Thread(() -> {
             try (InputStream is = p.getInputStream()) {
                 try (BufferedReader br = new BufferedReader(new InputStreamReader(is, stdoutCharset))) {

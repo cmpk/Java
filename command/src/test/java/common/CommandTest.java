@@ -17,12 +17,10 @@ public class CommandTest {
         String[] command = new String[] {"dir", "/B", "/N", "src"}; //ファイル名のみをアルファベット順で表示
         String stdoutCharset = "SJIS";
         List<String> outputs = new ArrayList<String> ();
-        long timeout = 10L;
-        TimeUnit timeUnit = TimeUnit.SECONDS;
 
         int actualExitCode = -1;
         try {
-            actualExitCode = Command.run(execDirPath, command, stdoutCharset, outputs, timeout, timeUnit);
+            actualExitCode = Command.run(execDirPath, command, stdoutCharset, outputs);
         } catch (CommandException e) {
             fail(e);
         }
@@ -34,7 +32,7 @@ public class CommandTest {
 
     @Test
     @DisplayName("コマンド失敗")
-    public final void testCommandFail() {
+    public final void testNegative_CommandFail() {
         String execDirPath = ".\\";
         String[] command = new String[] {"dir", "/B", "hoge"};
         String stdoutCharset = "SJIS";
@@ -55,7 +53,7 @@ public class CommandTest {
 
     @Test
     @DisplayName("タイムアウト")
-    public final void testTimeout() {
+    public final void testNegative_Timeout() {
         String execDirPath = ".\\";
         String[] command = new String[] {"ping", "192.168.1.1"}; //ファイル名のみをアルファベット順で表示
         String stdoutCharset = "SJIS";
