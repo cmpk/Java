@@ -25,8 +25,16 @@ class IPv4AddressValidatorTest {
     }
 
     @Test
+    @DisplayName("値がNullの場合にエラーにならないこと")
+    public final void testPositive_whenNull() {
+        AcceptNullBean bean = new AcceptNullBean(null);
+        Set<ConstraintViolation<ICSVRecord>> violations = this.validator.validate(bean);
+        assertTrue(violations.isEmpty());
+    }
+
+    @Test
     @DisplayName("値がNullの場合にエラーとなること")
-    public final void testNegativeWhenNull() {
+    public final void testNegative_whenNull() {
         NotNullBean bean = new NotNullBean(null);
         Set<ConstraintViolation<ICSVRecord>> violations = this.validator.validate(bean);
         assertFalse(violations.isEmpty());
@@ -35,7 +43,7 @@ class IPv4AddressValidatorTest {
     @ParameterizedTest
     @ValueSource(strings = {"", "0", "0.0", "0.0.0", "0.0.0.", "a.0.0.0"})
     @DisplayName("値がIPアドレスの形式でない場合にエラーとなること")
-    public final void testNegativeWhenInvalidFormat(final String str) {
+    public final void testNegative_whenInvalidFormat(final String str) {
         NotNullBean bean = new NotNullBean(str);
         Set<ConstraintViolation<ICSVRecord>> violations = this.validator.validate(bean);
         assertFalse(violations.isEmpty());
@@ -48,6 +56,30 @@ class IPv4AddressValidatorTest {
         NotNullBean bean = new NotNullBean(str);
         Set<ConstraintViolation<ICSVRecord>> violations = this.validator.validate(bean);
         assertTrue(violations.isEmpty());
+    }
+
+    private static class AcceptNullBean implements ICSVRecord {
+        @IPv4Address(nullable = true)
+        private String ipv4Address = null;
+
+        AcceptNullBean(final String value) {
+            this.ipv4Address = value;
+        }
+
+        @Override
+        public void setRecord(final CSVRecord record) {
+            // pass
+        }
+
+        @Override
+        public int getColumnSize() {
+            return 0;
+        }
+
+        @Override
+        public String[] getRecord() {
+            return null;
+        }
     }
 
     private static class NotNullBean implements ICSVRecord {

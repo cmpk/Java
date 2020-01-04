@@ -37,13 +37,10 @@ public class DateWithYearMonthDateValidator implements ConstraintValidator<DateW
         Date date = null;
         try {
             SimpleDateFormat sdf = new SimpleDateFormat(format);
-            if (value != null) {
-                date = sdf.parse(value);
-                if (!value.equals(sdf.format(date))) {
-                    date = null;
-                }
+            date = sdf.parse(value);
+            if (!value.equals(sdf.format(date))) {
+                date = null;
             }
-
         } catch (ParseException ex) {
             // pass
         }

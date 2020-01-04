@@ -19,7 +19,7 @@
 * ValidationMessages.properties の文字コードは ISO-8859-1（Latin-1）である必要がある  
   * properties ファイルが Hibernate 内部で ISO-8859-1 で読み込まれる模様  
 
-## 課題
+## UTについて
 
-* UT を充実させる  
+* 利用方法を例示する main パッケージ配下については、UT 未実装  
 

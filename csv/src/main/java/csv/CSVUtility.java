@@ -23,7 +23,7 @@ public final class CSVUtility {
      * @return 変換した文字列
      */
     public static String toString(final Date date, final String format) {
-        if (date == null) {
+        if (date == null || format == null) {
             return "";
         }
         SimpleDateFormat sdFormat = new SimpleDateFormat(format);
