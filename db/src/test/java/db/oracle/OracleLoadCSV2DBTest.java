@@ -13,7 +13,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import common.CommandException;
 import common.PropertyStorage;
 
-class OracleTest {
+class OracleLoadCSV2DBTest {
     public static final String LOG_DIR = "work";
     public static final String TEST_DATA_DIR = "src/test/resources";
     private Oracle oracle;
