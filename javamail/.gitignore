@@ -13,3 +13,4 @@ bin
 
 # Ignore files including personal information
 conf/mail.properties
+src/test/resources/mail.properties

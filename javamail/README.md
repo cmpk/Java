@@ -16,11 +16,29 @@
 <root>
   ├ <this project>
   ｜  └ conf/
-  ｜      └ *.ftl
+  ｜      ├ body.ftl
+  ｜      └ mail.properties   //実行環境に合わせて設定
   └ <properties project>
       └ *.jar
 
 ```
 
+### mail.properties サンプル
+```
+username=test01@gmail.com
+password=test01
+charset=UTF-8
+encoding=base64
+host=smtp.gmail.com
+port=587
+
+from=test02@gmail.com
+reply_to=test03@gmail.com
+```
+
+## UT について
+main パッケージ以外のクラスについて、UTを実装済み  
+
 ## 注釈
-(*1) テンプレートファイルを SJIS、ソースコードを UTF-8 にした際に、テンプレートに埋め込む値をソースコードにべた書きすると、べた書きした部分だけ文字化けが発生。
+(*1) テンプレートファイルを SJIS、ソースコードを UTF-8 にした際に、テンプレートに埋め込む値をソースコードにべた書きすると、べた書きした部分だけ文字化けが発生するため。  
+（べた書き部分の文字コードをきちんと設定してあげればいけるとは思う）  
