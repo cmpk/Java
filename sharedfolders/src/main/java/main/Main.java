@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import common.PropertyStorage;
+import common.SharedFolderAccessor;
 
 public final class Main {
 

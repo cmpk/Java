@@ -19,6 +19,8 @@
 | ftp          | FTP GET                                      | -                             | [Apache Commons Net](https://commons.apache.org/proper/commons-net/)||
 | javamail     | メール内容作成にテンプレートを使用してメール送信 | properties                | <ul><li>[Java Mail](https://javaee.github.io/javamail/)</li><li>[Apache FreeMaker](https://freemarker.apache.org/)</li></ul> ||
 | log4j2       | ロギングの仕方                               | -                             | [Apache Log4j 2](https://logging.apache.org/log4j/2.x/) ||
+| properties   | プロパティファイルの読込                     | -                             | -                              ||
+| sharedfolders| Windows 共有フォルダへのアクセス             | properties                    | -                              ||
 
 ## checkstyle について
 

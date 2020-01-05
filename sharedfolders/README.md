@@ -1,14 +1,20 @@
-準備中  
+# Windows 共有フォルダへのアクセス方法調査  
 
-# 概要
+## 目的
 
 Windows 共有フォルダにアクセスする方法を調査する。  
 
-# 利用準備
+## フォルダ構成
+```
+<root>
+  ├ <this project>
+  ｜  └ app.properties // 共有フォルダ接続情報を格納
+  └ <properties project>
+      └ *.jar
 
-properties プロジェクトもチェックアウトが必要  
+```
 
-# 課題
+## UT について
 
-UTを記載する  
+main パッケージ配下以外については UT 実装済み  
 

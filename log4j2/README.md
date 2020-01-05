@@ -1,14 +1,13 @@
-*準備中*
+# log4j 2 利用方法調査
 
-# 目的
-Apache log4j 2 の使用方法を調査する。  
-[Apache log4j 2](https://logging.apache.org/log4j/2.x/)  
+## 目的
+[Apache log4j 2](https://logging.apache.org/log4j/2.x/) の使用方法を調査する。  
 
-# 前提条件
+## 前提条件
 
 * Windows で動作させるためソースコード、ログファイルともに SJIS とする  
 
-# 課題
+## 課題
 
 * UT を書く
 * 実行時間の測定はAOPで書きたいなぁ

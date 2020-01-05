@@ -14,7 +14,18 @@ repositories {
     jcenter()
 }
 
+test {
+    // JUnit 5 用
+    useJUnitPlatform()
+}
+
 dependencies {
     // 依存プロジェクトを指定する
     compile project(':properties'), project(':command')
+
+    // パラメータテストの記載を簡略化するため、JUnit 5 を使用
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.4.0' //テスト記述用
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.4.0' //テスト実行用
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.4.0' //パラメータテスト用
+    testRuntime group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.4.0' //eclipseからのテスト実行用
 }

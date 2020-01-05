@@ -1,10 +1,7 @@
-package main;
+package common;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import common.Command;
-import common.CommandException;
 
 /**
  * Windows 共有フォルダにアクセスするための操作を提供する.
@@ -27,7 +24,7 @@ public class SharedFolderAccessor {
      * @param outputs 標準出力に出力された内容を格納するインスタンス.
      * @return 利用可能なドライブ文字列.
      */
-    public String searchDriveLetter(List<String> outputs) {
+    public String searchDriveLetter(List<String> outputs) { //SUPPRESS CHECKSTYLE outputs needs to be writable
         outputs = (outputs == null) ? new ArrayList<String>() : outputs;
         char c = 'Z';
         for (int i = 0; i < 26; i++) { //SUPPRESS CHECKSTYLE ignore magic number
@@ -61,7 +58,7 @@ public class SharedFolderAccessor {
      * @return 成功した場合は true
      * @throws CommandException
      */
-    public boolean assignNetworkDrive(final String driveLetter, final String sharedDirPath, final String userId, final String password, List<String> outputs) throws CommandException {
+    public boolean assignNetworkDrive(final String driveLetter, final String sharedDirPath, final String userId, final String password, List<String> outputs) throws CommandException { //SUPPRESS CHECKSTYLE outputs needs to be writable
         String[] commandList = {"net use", driveLetter + ":", sharedDirPath, password, "/USER:" + userId};
         outputs = (outputs == null) ? new ArrayList<String>() : outputs;
         int exitCode = Command.run("./", commandList, this.stdoutCharset, outputs);
@@ -80,7 +77,7 @@ public class SharedFolderAccessor {
      * @return 成功した場合は true
      * @throws CommandException
      */
-    public boolean deleteNetworkDrive(final String driveLetter, List<String> outputs) throws CommandException {
+    public boolean deleteNetworkDrive(final String driveLetter, List<String> outputs) throws CommandException { //SUPPRESS CHECKSTYLE outputs needs to be writable
         String[] commandList = {"net use", driveLetter + ":", "/delete"};
         outputs = (outputs == null) ? new ArrayList<String>() : outputs;
         int exitCode = Command.run("./", commandList, this.stdoutCharset, outputs);
