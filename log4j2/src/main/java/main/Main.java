@@ -7,6 +7,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import common.conf.Log4j2Attributes;
+import main.sub.MySubApplication;
+import main.sub.subsub.MySubSubApplication;
 
 /**
  * Apache log4j 2 サンプルコード.
@@ -31,6 +33,13 @@ public final class Main {
         MyApplication app = new MyApplication();
         app.doBusinessLogic();
 
+        // ログ出力
+        MySubApplication sub = new MySubApplication();
+        sub.doBusinessLogic();
+
+        // ログ出力
+        MySubSubApplication subsub = new MySubSubApplication();
+        subsub.doBusinessLogic();
 
         System.out.println("End");
     }

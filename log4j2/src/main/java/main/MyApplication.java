@@ -1,8 +1,11 @@
 package main;
 
-import common.BaseLogger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public class MyApplication extends BaseLogger {
+public class MyApplication {
+    private final Logger logger = LogManager.getLogger();
+
     public void doBusinessLogic() {
         long start = System.currentTimeMillis();
 

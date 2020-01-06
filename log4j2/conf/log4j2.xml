@@ -12,25 +12,35 @@
     </Properties>
 
     <Appenders>
-        <File name="sample_log" fileName="logs/sample_log4j2_${date:yyyyMMdd}.log">
+        <!-- 特定のパッケージ配下のクラスから出力されるログを別にしたい場合 -->
+        <File name="sub_log" fileName="logs/sub_log4j2_${date:yyyyMMdd}.log">
             <PatternLayout pattern="${base_format}" charset="SJIS" />
         </File>
 
         <!-- 特定のログレベルだけ別のファイルにも出力したい場合 -->
-        <File name="sample_log_error" fileName="logs/sample_error.log">
+        <File name="sub_error" fileName="logs/sub_error.log">
             <PatternLayout pattern="${base_format}" charset="SJIS" />
         </File>
 
+        <!--  全ロガーに対する設定 -->
+        <File name="main_log" fileName="logs/main_log4j2_${date:yyyyMMdd}.log">
+            <PatternLayout pattern="${base_format}" charset="SJIS" />
+        </File>
     </Appenders>
 
     <Loggers>
-        <!--  親の出力レベルをallにしないと、出力対象レベルが限定されてしまう -->
-        <Root level="all">
-            <AppenderRef ref="sample_log" level="all" />
+        <!-- 特定のパッケージ配下のクラスから出力されるログを別にしたい場合 -->
+        <!-- 親の出力レベルをallにしないと、出力対象レベルが限定されてしまう -->
+        <Logger name="main.sub" level="all">
+            <AppenderRef ref="sub_log" level="all" />
 
             <!-- 特定のログレベルだけ別のファイルにも出力したい場合 -->
-            <AppenderRef ref="sample_log_error" level="error" />
-
+            <AppenderRef ref="sub_error" level="error" />
+        </Logger>
+        
+        <!--  全ロガーに対する設定 -->
+        <Root level="all">
+            <AppenderRef ref="main_log" />
         </Root>
     </Loggers>
 
