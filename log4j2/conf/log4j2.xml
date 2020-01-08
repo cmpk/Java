@@ -26,6 +26,11 @@
         <File name="main_log" fileName="logs/main_log4j2_${date:yyyyMMdd}.log">
             <PatternLayout pattern="${base_format}" charset="SJIS" />
         </File>
+
+        <!-- ローカル環境で開発する際は、標準出力にも出力した方が開発しやすいことがある -->
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${base_format}"/>
+        </Console>
     </Appenders>
 
     <Loggers>
@@ -41,6 +46,7 @@
         <!--  全ロガーに対する設定 -->
         <Root level="all">
             <AppenderRef ref="main_log" />
+            <AppenderRef ref="console" />
         </Root>
     </Loggers>
 
