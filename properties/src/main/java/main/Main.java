@@ -5,9 +5,9 @@ import java.io.IOException;
 
 import common.PropertyStorage;
 
-public class Main {
+public final class Main {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         try {
             PropertyStorage p = new PropertyStorage("sample.properties", "UTF-8");
             System.out.println(p.getPropertyString("sample_string"));
@@ -19,6 +19,9 @@ public class Main {
             // TODO 自動生成された catch ブロック
             e.printStackTrace();
         }
+    }
+
+    private Main() {
     }
 
 }

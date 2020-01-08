@@ -10,7 +10,7 @@ import java.util.Properties;
 import org.apache.commons.lang3.StringUtils;
 
 public class PropertyStorage {
-    protected final Properties properties;
+    protected final Properties properties; // SUPPRESS CHECKSTYLE declare as protected in order to allow extended class to use it without any restrictions
 
     /**
      * プロパティファイルを読み込み、プロパティを保持するインスタンスを作成する.
@@ -21,7 +21,7 @@ public class PropertyStorage {
      */
     public PropertyStorage(final String filepath, final String charsetName) throws FileNotFoundException, IOException {
         this.properties = new Properties();
-        try(InputStreamReader in = new InputStreamReader(new FileInputStream(filepath), Charset.forName(charsetName))) {
+        try (InputStreamReader in = new InputStreamReader(new FileInputStream(filepath), Charset.forName(charsetName))) {
             this.properties.load(in);
         }
     }

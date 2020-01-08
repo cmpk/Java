@@ -8,12 +8,20 @@ apply plugin: 'java'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+// Checkstyle をアクティブにする
+apply plugin: 'eclipse'
+eclipse {
+    project {
+        natures 'net.sf.eclipsecs.core.CheckstyleNature'
+        buildCommand 'net.sf.eclipsecs.core.CheckstyleBuilder'
+    }
+}
+
 repositories {
-    // Use jcenter for resolving dependencies.
-    // You can declare any Maven/Ivy/file repository here.
     jcenter()
 }
 
+apply plugin: 'eclipse' // eclipse から JUNIT の実行を可能にする
 test {
     // JUnit 5 用
     useJUnitPlatform()

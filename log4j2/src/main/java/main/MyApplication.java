@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 public class MyApplication {
     private final Logger logger = LogManager.getLogger();
 
-    public void doBusinessLogic() {
+    public final void doBusinessLogic() {
         long start = System.currentTimeMillis();
 
         this.logger.debug("デバッグテスト");
@@ -19,11 +19,11 @@ public class MyApplication {
         this.logger.trace("実行時間：" + (end - start)  + "ms");
     }
 
-    private boolean occurError( ) {
+    private boolean occurError() {
         boolean[] array = {};
         try {
             return array[0];
-        } catch(Exception e) {
+        } catch (Exception e) {
             this.logger.error("エラーテスト", e);
         }
         return true;

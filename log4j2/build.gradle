@@ -8,7 +8,14 @@ apply plugin: 'java'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-apply plugin: 'checkstyle'
+// Checkstyle をアクティブにする
+apply plugin: 'eclipse'
+eclipse {
+    project {
+        natures 'net.sf.eclipsecs.core.CheckstyleNature'
+        buildCommand 'net.sf.eclipsecs.core.CheckstyleBuilder'
+    }
+}
 
 repositories {
     // Use jcenter for resolving dependencies.

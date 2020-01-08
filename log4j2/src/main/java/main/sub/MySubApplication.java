@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 public class MySubApplication {
     private final Logger logger = LogManager.getLogger();
 
-    public void doBusinessLogic() {
+    public final void doBusinessLogic() {
         this.logger.debug("デバッグテスト");
         this.logger.info("情報テスト\r\n複数行も表示できるかな");
         this.logger.warn("警告テスト");

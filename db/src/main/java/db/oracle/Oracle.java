@@ -53,7 +53,7 @@ public final class Oracle implements IDataSource {
      * @trhwos SQLLoaderException SQL*Loader の終了コードが 0 でない場合
      */
     public String loadCSV2DB(final String userId, final String password, final String logDir, final String controlFile, final String dataFile, final boolean includeHeader) throws CommandException, SQLLoaderException {
-        String basename = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(Calendar.getInstance().getTime()) + "_" + (int)(Math.random() * 100);
+        String basename = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(Calendar.getInstance().getTime()) + "_" + (int) (Math.random() * 100);
         String badFilepath = logDir + "/" + SQLLOADER_FILE_PREFIX + basename + ".bad";
         String discardFilepath = logDir + "/" + SQLLOADER_FILE_PREFIX + basename + ".dsc";
         String logFilepath = logDir + "/" + SQLLOADER_FILE_PREFIX + basename + ".log";

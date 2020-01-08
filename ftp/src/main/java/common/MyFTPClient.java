@@ -8,12 +8,12 @@ import java.io.InputStream;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 
-public class MyFTPClient implements AutoCloseable {
+public final class MyFTPClient implements AutoCloseable {
     public static final int DEFAULT_PORT = 21;
 
     private FTPClient client = null;
 
-    public void open(String hostname, String username, String password) throws MyFTPClientException {
+    public void open(final String hostname, final String username, final String password) throws MyFTPClientException {
         open(hostname, username, password, DEFAULT_PORT);
     }
 
@@ -26,7 +26,7 @@ public class MyFTPClient implements AutoCloseable {
      * @param port
      * @throws MyFTPClientException
      */
-    public void open(String hostname, String username, String password, int port) throws MyFTPClientException {
+    public void open(final String hostname, final String username, final String password, final int port) throws MyFTPClientException {
         this.client = new FTPClient();
 
         try {
@@ -79,7 +79,7 @@ public class MyFTPClient implements AutoCloseable {
      * @return {@link FTPClient#retrieveFile(String, java.io.OutputStream)}
      * @throws MyFTPClientException
      */
-    public boolean get(String sourceFilePath, String destFilepath) throws MyFTPClientException {
+    public boolean get(final String sourceFilePath, final String destFilepath) throws MyFTPClientException {
         if (this.client == null) {
             throw new MyFTPClientException("FTPサーバに接続されていません。FTPサーバに接続後、GET処理を実行してください。");
         }
@@ -100,7 +100,7 @@ public class MyFTPClient implements AutoCloseable {
      * @return {@link InputStream}
      * @throws MyFTPClientException
      */
-    public InputStream get(String sourceFilePath) throws MyFTPClientException {
+    public InputStream get(final String sourceFilePath) throws MyFTPClientException {
         if (this.client == null) {
             throw new MyFTPClientException("FTPサーバに接続されていません。FTPサーバに接続後、GET処理を実行してください。");
         }

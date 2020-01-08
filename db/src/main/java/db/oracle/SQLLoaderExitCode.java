@@ -33,7 +33,7 @@ public enum SQLLoaderExitCode {
         return null;
     }
 
-    private SQLLoaderExitCode(Integer[] exitCodes, String message) {
+    private SQLLoaderExitCode(final Integer[] exitCodes, final String message) {
         this.exitCodes = exitCodes;
         this.message = message;
     }
