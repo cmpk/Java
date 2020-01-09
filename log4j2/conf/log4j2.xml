@@ -18,7 +18,8 @@
         </File>
 
         <!-- 特定のログレベルだけ別のファイルにも出力したい場合 -->
-        <File name="sub_error" fileName="logs/sub_error.log">
+        <!-- append を false にすることで、実行ごとにログファイルを上書きする -->
+        <File name="sub_error" fileName="logs/sub_error.log" append="false">
             <PatternLayout pattern="${base_format}" charset="SJIS" />
         </File>
 
