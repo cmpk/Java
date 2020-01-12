@@ -2,6 +2,7 @@ package csv;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -11,17 +12,35 @@ import java.util.List;
 
 import org.apache.commons.csv.CSVRecord;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 public class CSVReaderTest {
+    public enum Type {
+        FILE, STREAM;
+    }
+
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    @Test
+    @ParameterizedTest
+    @EnumSource(Type.class)
     @DisplayName("区切り文字がカンマでない")
-    public final void testDelimiterIsNotComma() {
+    public final void testDelimiterIsNotComma(Type type) {
+        String filePath = "./src/test/resources/delimiter_is_tab.tsv";
+
         CSVReader reader = new CSVReader();
         ICSVRecords csvRecords = null;
         try {
-            csvRecords = reader.read((Class) TestRecords.class, "./src/test/resources/delimiter_is_tab.tsv", StandardCharsets.UTF_8, '\t', false);
+            switch(type) {
+            case FILE:
+                csvRecords = reader.read((Class) TestRecords.class, filePath, StandardCharsets.UTF_8, '\t', false);
+                break;
+            case STREAM:
+                FileInputStream inputStream = new FileInputStream(filePath);
+                csvRecords = reader.read((Class) TestRecords.class, inputStream, StandardCharsets.UTF_8, '\t', false);
+                break;
+            default:
+                fail("invalid input into this test");
+            }
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | IOException e) {
             fail(e);
         }
@@ -30,13 +49,25 @@ public class CSVReaderTest {
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    @Test
+    @ParameterizedTest
+    @EnumSource(Type.class)
     @DisplayName("ヘッダ付き")
-    public final void testWithHeader() {
+    public final void testWithHeader(Type type) {
+        String filePath = "./src/test/resources/with_header.csv";
         CSVReader reader = new CSVReader();
         ICSVRecords csvRecords = null;
         try {
-            csvRecords = reader.read((Class) TestRecords.class, "./src/test/resources/with_header.csv", StandardCharsets.UTF_8, true);
+            switch(type) {
+            case FILE:
+                csvRecords = reader.read((Class) TestRecords.class, filePath, StandardCharsets.UTF_8, true);
+                break;
+            case STREAM:
+                FileInputStream inputStream = new FileInputStream(filePath);
+                csvRecords = reader.read((Class) TestRecords.class, inputStream, StandardCharsets.UTF_8, true);
+                break;
+            default:
+                fail("invalid input into this test");
+            }
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | IOException e) {
             fail(e);
         }
@@ -45,13 +76,26 @@ public class CSVReaderTest {
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    @Test
+    @ParameterizedTest
+    @EnumSource(Type.class)
     @DisplayName("文字コード(SJIS)の読込")
-    public final void testInSJIS() {
+    public final void testInSJIS(Type type) {
+        String filePath = "./src/test/resources/SJIS.csv";
+
         CSVReader reader = new CSVReader();
         ICSVRecords csvRecords = null;
         try {
-            csvRecords = reader.read((Class) TestRecords.class, "./src/test/resources/SJIS.csv", Charset.forName("SJIS"), true);
+            switch(type) {
+            case FILE:
+                csvRecords = reader.read((Class) TestRecords.class, filePath, Charset.forName("SJIS"), true);
+                break;
+            case STREAM:
+                FileInputStream inputStream = new FileInputStream(filePath);
+                csvRecords = reader.read((Class) TestRecords.class, inputStream, Charset.forName("SJIS"), true);
+                break;
+            default:
+                fail("invalid input into this test");
+            }
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | IOException e) {
             fail(e);
         }
