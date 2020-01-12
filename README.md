@@ -28,10 +28,15 @@
   * 以下を有効化
     * フィルター > Suppress With Nearby Comment Filter
     * フィルター > Suppression With Plain Text Comment Filter
-  * お世話になったサイト
-    * [敢えて規約を破るケース（Checkstyleの警告抑制）](http://daisuke-m.hatenablog.com/entry/20090914/1252946741)
+  * 以下を無効化
+    * Javadoc コメント > 全て
+    * コーディング問題 > インライン条件を使用しない
+    * コーディング問題 > 隠しフィールド
 * UTは適用対象外としている
   * File Filters > Before Execution Exclusion File Filter で fileNamePatter に ".*Test.java" を指定
+* お世話になったサイト
+  * [敢えて規約を破るケース（Checkstyleの警告抑制）](http://daisuke-m.hatenablog.com/entry/20090914/1252946741)
+
 
 ## Eclipse で Gradle を使用する
 
