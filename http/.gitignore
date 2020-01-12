@@ -1,0 +1,16 @@
+# Ignore Gradle files
+.gradle
+build
+gradle
+gradlew.bat
+gradlew
+
+# Ignore Eclipse files
+.checkstyle
+.classpath
+.project
+.settings
+bin
+
+# Ignore files for test
+work/*
