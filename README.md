@@ -21,6 +21,7 @@
 | log4j2       | ロギングの仕方                               | -                             | [Apache Log4j 2](https://logging.apache.org/log4j/2.x/) ||
 | properties   | プロパティファイルの読込                     | -                             | -                              ||
 | sharedfolders| Windows 共有フォルダへのアクセス             | properties                    | -                              ||
+| sort         | 独自クラスのソート                           | -                             | -                              ||
 
 ## checkstyle について
 
