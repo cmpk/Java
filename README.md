@@ -16,6 +16,7 @@
 | command      | 外部コマンド実行                             | -                             | [Apache Commons Lang](https://commons.apache.org/proper/commons-lang/) | 単独では実行不可。他プロジェクトから利用することを前提としている。 |
 | csv          | CSVの読込と書込み <br> 各値のバリデーション  | -                             | <ul><li>[Apache Commons CSV](https://commons.apache.org/proper/commons-csv/)</li><li>[Bean Validation](https://beanvalidation.org/)</li></ul> ||
 | db           | DB（Oracle）操作                             | command <br> properties       | -                              ||
+| file         | ファイル操作                                 | -                             | [Apache Commons IO](https://commons.apache.org/proper/commons-io/)||
 | ftp          | FTP GET                                      | -                             | [Apache Commons Net](https://commons.apache.org/proper/commons-net/)||
 | http         | HTTP GET                                     | -                             | [Apache HttpComponents](https://hc.apache.org/)||
 | javamail     | メール内容作成にテンプレートを使用してメール送信 | properties                | <ul><li>[Java Mail](https://javaee.github.io/javamail/)</li><li>[Apache FreeMaker](https://freemarker.apache.org/)</li></ul> ||

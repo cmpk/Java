@@ -1,0 +1,15 @@
+# Ignore Gradle files
+.gradle
+build
+gradle
+gradlew.bat
+gradlew
+
+# Ignore Eclipse files
+.classpath
+.project
+.settings
+bin
+
+# Ignore working files
+work/*
