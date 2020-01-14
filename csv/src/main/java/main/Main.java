@@ -59,6 +59,7 @@ public final class Main {
 
     private static <T> void printErrors(final Set<ConstraintViolation<T>> constraintViolations) {
         for (ConstraintViolation<T> violation : constraintViolations) {
+            System.out.println("InvalidValue : " + violation.getInvalidValue());
             System.out.println("MessageTemplate : " + violation.getMessageTemplate());
             System.out.println("Message : " + violation.getMessage());
             System.out.println("PropertyPath : " + violation.getPropertyPath());
