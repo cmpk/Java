@@ -1,0 +1,27 @@
+/*
+ * This generated file contains a sample Java Library project to get you started.
+ * For more details take a look at the Java Libraries chapter in the Gradle
+ * User Manual available at https://docs.gradle.org/5.6.1/userguide/java_library_plugin.html
+ */
+
+apply plugin: 'java'
+apply plugin: 'java-library'   // pj2 はライブラリとして使用する
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+version = '1.0.0'
+
+repositories {
+    // Use jcenter for resolving dependencies.
+    // You can declare any Maven/Ivy/file repository here.
+    jcenter()
+}
+
+dependencies {
+    // 依存プロジェクトを指定する
+    implementation project(':common')
+
+    // 依存関係を伝搬させる
+    api group: 'commons-io', name: 'commons-io', version: '2.6'
+}
+
+defaultTasks 'clean', 'build'

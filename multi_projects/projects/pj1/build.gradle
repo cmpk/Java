@@ -1,0 +1,52 @@
+/*
+ * This generated file contains a sample Java Library project to get you started.
+ * For more details take a look at the Java Libraries chapter in the Gradle
+ * User Manual available at https://docs.gradle.org/5.6.1/userguide/java_library_plugin.html
+ */
+
+apply plugin: 'java'
+apply plugin: 'application' // 実行可能な Java アプリケーションとして定義する
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+version = '1.0.0'
+
+repositories {
+    // Use jcenter for resolving dependencies.
+    // You can declare any Maven/Ivy/file repository here.
+    jcenter()
+}
+
+application {
+    mainClassName = 'multipj.pj1.Main'
+}
+
+dependencies {
+    // 依存プロジェクトを指定する
+    implementation project(':common')
+    implementation project(':pj2')
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': application.mainClassName
+
+        // 依存ライブラリをクラスパスに追加（これがないと依存ライブラリの jar を実行できない）
+        attributes 'Class-Path': configurations.runtimeClasspath.collect{it.name}.join(' ')
+        println configurations.runtimeClasspath.collect{it.name}.join(' ')
+    }
+
+    doLast {
+        // 依存ライブラリを含めて、jarのみをコピーする
+        copy {
+            from configurations.runtimeClasspath
+            into destinationDir
+            include '*.jar'
+        }
+    }
+}
+
+// コンパイル時の出力「エンコーディングwindows-31jにマップできません」対策
+// 参考: https://qiita.com/kero3/items/30b05e834a5fb65884c6
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
