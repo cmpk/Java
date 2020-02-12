@@ -25,8 +25,8 @@ repositories {
 
 dependencies {
     // log4j 2 のために追加
-    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.12.1'
-    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.12.1'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.12.1'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.12.1'
 
     // Getter/Setter アノテーション用
     compileOnly 'org.projectlombok:lombok:1.18.10'
@@ -34,21 +34,4 @@ dependencies {
 
     // 実行時に conf ディレクトリをクラスパスに追加
     runtime files('conf')
-}
-
-jar {
-    // 設定ファイルは jar に含めない
-    exclude('*.xml')
-
-    // 外部jarを1個のjarに突っ込む
-    // ・参考 : Gradleでマルチプロジェクトを実行可能JARにする (https://qiita.com/kazuma1989/items/83dc10c8ee1313592e4a)
-    // ・参考 : https://tech-lab.sios.jp/archives/9500 (https://tech-lab.sios.jp/archives/9500)
-    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-
-    manifest {
-        attributes 'Main-Class': 'main.Main'
-
-        // 設定ファイルを作成された jar ファイルと同じディレクトリの conf ディレクトリに配置するものとする
-        attributes 'Class-Path': './conf/'
-    }
 }

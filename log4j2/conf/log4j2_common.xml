@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Properties>
+    <!-- 参考: Apache log4j 2 Layout (http://logging.apache.org/log4j/2.x/manual/layouts.html) -->
+    <!--
+        このフォーマット指定で、以下のようなログが出力される。
+            2019/12/01 12:06:39.266,ERROR,main,main.MyApplication,エラーテスト
+     -->
+    <Property name="base_format" value="%d{yyyy/MM/dd HH:mm:ss.SSS},%-5level,%thread,%class,%message%n" />
+</Properties>

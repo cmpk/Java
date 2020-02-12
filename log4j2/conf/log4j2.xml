@@ -1,25 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!-- 参考: log4j.xml書き方メモ (https://qiita.com/opengl-8080/items/f7e1f1b7e2b928427cb5) -->
 <!-- 参考: log4j2の設定ファイル(XML) (https://qiita.com/pica/items/f801c74848f748f76b58) -->
-<Configuration status="off">
-    <Properties>
-        <!-- 参考: Apache log4j 2 Layout (http://logging.apache.org/log4j/2.x/manual/layouts.html) -->
-        <!--
-            このフォーマット指定で、以下のようなログが出力される。
-                2019/12/01 12:06:39.266,ERROR,main,main.MyApplication,エラーテスト
-         -->
-        <Property name="base_format" value="%d{yyyy/MM/dd HH:mm:ss.SSS},%-5level,%thread,%class,%message%n" />
-    </Properties>
+<Configuration xmlns:xi="http://www.w3.org/2001/XInclude" status="off">
+    <!-- 共通化を考え設定ファイルを分割 -->
+    <xi:include href="log4j2_common.xml"/>
 
     <Appenders>
         <!-- 特定のパッケージ配下のクラスから出力されるログを別にしたい場合 -->
-        <File name="sub_log" fileName="logs/sub_log4j2_${date:yyyyMMdd}.log">
+        <File name="sub_log" fileName="sub_log4j2_${date:yyyyMMdd}.log">
             <PatternLayout pattern="${base_format}" charset="SJIS" />
         </File>
 
         <!-- 特定のログレベルだけ別のファイルにも出力したい場合 -->
         <!-- append を false にすることで、実行ごとにログファイルを上書きする -->
-        <File name="sub_error" fileName="logs/sub_error.log" append="false">
+        <File name="sub_error" fileName="sub_error.log" append="false">
             <PatternLayout pattern="${base_format}" charset="SJIS" />
         </File>
 
