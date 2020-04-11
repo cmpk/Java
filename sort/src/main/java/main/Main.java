@@ -27,7 +27,7 @@ public final class Main {
      * 第1キーを firstName, 第2キーを lastName で昇順で並び替え
      */
     private static void sortWith2Keys(final List<Data> list) {
-        // ラムダ式を使用
+        // ソートにラムダ式を使用
         List<Data> sortedWith2Keys = list.parallelStream().sorted((x, y) -> {
             int i = x.getFirstName().compareTo(y.getFirstName());
             if (i != 0) {
@@ -39,6 +39,7 @@ public final class Main {
         System.out.println("===== ラムダ式を利用");
         sortedWith2Keys.forEach(data -> System.out.println(data));
 
+        // ソートに Collections を使用
         Collections.sort(
             list,
             new Comparator<Data>() {
@@ -53,7 +54,7 @@ public final class Main {
                     return o1.getLastName().compareTo(o2.getLastName());
                 }
             });
-        System.out.println("===== 元のデータを並べ替え");
+        System.out.println("===== Collections を使用");
         list.forEach(data -> System.out.println(data));
     }
 
