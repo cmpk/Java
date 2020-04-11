@@ -13,18 +13,19 @@
 ## 一覧
 
 | ディレクトリ | 内容                                         | 依存プロジェクト              | 主要依存ライブラリ, 参考サイト | 備考  |
-| ------------ | -------------------------------------------- | ----------------------------- | ------------------------------ | ----- |
-| command      | 外部コマンド実行                             | -                             | [Apache Commons Lang](https://commons.apache.org/proper/commons-lang/) | 単独では実行不可。他プロジェクトから利用することを前提としている。 |
-| csv          | CSVの読込と書込み <br> 各値のバリデーション  | -                             | <ul><li>[Apache Commons CSV](https://commons.apache.org/proper/commons-csv/)</li><li>[Bean Validation](https://beanvalidation.org/)</li></ul> ||
-| db           | DB（Oracle）操作                             | command <br> properties       | -                              ||
-| file         | ファイル操作                                 | -                             | [Apache Commons IO](https://commons.apache.org/proper/commons-io/)||
-| ftp          | FTP GET                                      | -                             | [Apache Commons Net](https://commons.apache.org/proper/commons-net/)||
-| http         | HTTP GET                                     | -                             | [Apache HttpComponents](https://hc.apache.org/)||
-| javamail     | メール内容作成にテンプレートを使用してメール送信 | properties                | <ul><li>[Java Mail](https://javaee.github.io/javamail/)</li><li>[Apache FreeMaker](https://freemarker.apache.org/)</li></ul> ||
-| log4j2       | ロギングの仕方                               | -                             | [Apache Log4j 2](https://logging.apache.org/log4j/2.x/) ||
-| properties   | プロパティファイルの読込                     | -                             | -                              ||
-| sharedfolders| Windows 共有フォルダへのアクセス             | properties                    | -                              ||
-| sort         | 独自クラスのソート                           | -                             | -                              ||
+| ------------ | --------------------------------------- | ----------------------------- | ------------------------------ | ----- |
+| command       | 外部コマンド実行                          | -                             | [Apache Commons Lang](https://commons.apache.org/proper/commons-lang/) | 単独では実行不可。他プロジェクトから利用することを前提としている。 |
+| csv           | CSVの読込と書込み <br> 各値のバリデーション  | -                             | <ul><li>[Apache Commons CSV](https://commons.apache.org/proper/commons-csv/)</li><li>[Bean Validation](https://beanvalidation.org/)</li></ul> ||
+| db            | DB（Oracle）操作                         | command <br> properties       | -                              ||
+| file          | ファイル操作                             | -                             | [Apache Commons IO](https://commons.apache.org/proper/commons-io/)||
+| ftp           | FTP GET                               | -                             | [Apache Commons Net](https://commons.apache.org/proper/commons-net/)||
+| http          | HTTP GET                              | -                             | [Apache HttpComponents](https://hc.apache.org/)||
+| javamail      | メール内容作成にテンプレートを使用してメール送信 | properties                | <ul><li>[Java Mail](https://javaee.github.io/javamail/)</li><li>[Apache FreeMaker](https://freemarker.apache.org/)</li></ul> ||
+| log4j2        | ロギングの仕方                           | -                             | [Apache Log4j 2](https://logging.apache.org/log4j/2.x/) ||
+| multi_projects| gradle におけるマルチプロジェクト構築         | -                             | -                              |本ディレクトリ内に複数プロジェクトを保存|
+| properties    | プロパティファイルの読込                    | -                             | -                              ||
+| sharedfolders | Windows 共有フォルダへのアクセス            | properties                    | -                              ||
+| sort          | 独自クラスのソート                         | -                             | -                              ||
 
 ## checkstyle について
 
